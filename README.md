@@ -1,6 +1,8 @@
 # ea-mini-addins
-这个项目基于Enterprise Architect Add-In Model与Automation Interface开发出来的小工具，包含：批量、配置化图片导出；模型内容统计
----
+
+
+这个项目基于Enterprise Architect Add-In Model与Automation Interface开发出来的小工具，包含：批量、配置化图片导出；模型内容统计.
+
 
 ## overview
 EA仅支持开发语言VB、C#、Delphi，本项目采用面向对象的C#语言进行开发。其中：
