@@ -29,10 +29,11 @@
         ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase1.png)
 
   2. 模型制作内容统计(statistics workload)
-        ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase2.png)
+        ![ucase2](/uploads/774dc4b8509b57f59102e0371b92ff38/ucase2.png)
 
   3. 实时变更监控(export image with modeless)
-        ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase3.png)
+        ![ucase3](/uploads/a8f16bdcfb044e1d7a7dd84ea46ddfe5/ucase3.png)
+        
         - 实现机制是订阅EA Model Object的Watcher对象；
         - 在EA中打开另外模型文件时，Add-Ins上的表示内容也将同步刷新；
         - 变更日志反馈到画面底部的状态栏中，可通过点击【Copy】、【Copy All】拷出当次变更点以及全所变更点;
@@ -62,4 +63,4 @@
         ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
         
         - 菜单是否可用
-        ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install2.png)
+        ![ea-addins-install2](/uploads/dc736ade2a0fa9dd8a5f4a83d9b99015/ea-addins-install2.png)
