@@ -9,7 +9,7 @@
 * 基于Windows Form的MiniAddinsFacade工程实现EA对接门面.
 * 基于WPF技术的MiniAddins工程实现EA类似画面的定制、MVVM、实现功能.
 
-![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/comp.png)
+![comp](/uploads/9b9494798d7f8c148ce157b3e3936b67/comp.png)
 
 ## Develope Language and Tool
 * C#
@@ -18,7 +18,7 @@
 ## Function Description 
 ### 用例图
 
-![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ea addins.png)
+![ea_addins](/uploads/b2d0abfd9e40e27cfcc0cc3f740c0e34/ea_addins.png)
 
 ### 概要说明
 * 插件安装配置
@@ -26,13 +26,13 @@
 
 * 建模工程师视角
   1. 模型Diagram图片导出(export image、save screen display value)
-        ![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ucase1.png)
+        ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase1.png)
 
   2. 模型制作内容统计(statistics workload)
-        ![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ucase2.png)
+        ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase2.png)
 
   3. 实时变更监控(export image with modeless)
-        ![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ucase3.png)
+        ![ucase1](/uploads/150f21345435eddf92c85d20c26e1aa3/ucase3.png)
         - 实现机制是订阅EA Model Object的Watcher对象；
         - 在EA中打开另外模型文件时，Add-Ins上的表示内容也将同步刷新；
         - 变更日志反馈到画面底部的状态栏中，可通过点击【Copy】、【Copy All】拷出当次变更点以及全所变更点;
@@ -59,7 +59,7 @@
     3. 打开Enterprise Architect，检查Add-Ins是否安装成功
 
         - Add-Ins是否Loaded状态
-        ![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ea-addins-install1.png)
+        ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
         
         - 菜单是否可用
-        ![](https://git-open.qianxin-inc.cn/free/EA-Extension/ea-mini-addins/-/blob/master/document/images/ea-addins-install2.png)
+        ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install2.png)
