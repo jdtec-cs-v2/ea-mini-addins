@@ -1,7 +1,7 @@
-# EA Mini Add-Ins
+# Enterprise Architect  Mini Add-Ins
 
 
-这个项目基于Enterprise Architect Add-In Model与Automation Interface开发出来的小工具，包含：批量、配置化图片导出；模型内容统计.
+这个项目基于Enterprise Architect Add-Ins Model与Automation Interface开发出来的小工具，包含：批量、配置化图片导出；模型内容统计.
 
 
 ## Overview
@@ -9,7 +9,7 @@
 * 基于Windows Form的MiniAddinsFacade工程实现EA对接门面.
 * 基于WPF技术的MiniAddins工程实现EA类似画面的定制、MVVM、实现功能.
 
-<img src="document\images\comp.png" style="zoom:80%;" />
+![](document\images\comp.png)
 
 ## Develope Language and Tool
 * C#
@@ -18,7 +18,7 @@
 ## Function Description 
 ### 用例图
 
-<img src="document\images\ea addins.png" style="zoom:70%;" />
+![](document\images\ea addins.png)
 
 ### 概要说明
 * 插件安装配置
@@ -26,13 +26,13 @@
 
 * 建模工程师视角
   1. 模型Diagram图片导出(export image、save screen display value)
-        <img src="document\images\ucase1.png" style="zoom:100%;" />
+        ![](document\images\ucase1.png)
 
   2. 模型制作内容统计(statistics workload)
-        <img src="document\images\ucase2.png" style="zoom:100%;" />
+        ![](document\images\ucase2.png)
 
   3. 实时变更监控(export image with modeless)
-        <img src="document\images\ucase3.png" style="zoom:100%;" />
+        ![](document\images\ucase3.png)
         - 实现机制是订阅EA Model Object的Watcher对象；
         - 在EA中打开另外模型文件时，Add-Ins上的表示内容也将同步刷新；
         - 变更日志反馈到画面底部的状态栏中，可通过点击【Copy】、【Copy All】拷出当次变更点以及全所变更点;
@@ -53,7 +53,13 @@
 ## Install
 * 安装方法
     1. 进入Add-Ins-Install目录，双击“RegistryEntry_MiniAddins.reg”文件（注册EA插件）
+    
     2. 把dll子目录中的MiniAddinsFacade等DLL文件拷贝到Enterprise Architect的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial
+    
     3. 打开Enterprise Architect，检查Add-Ins是否安装成功
-        <img src="document\images\ea-addins-install1.png" style="zoom:100%;" />
-        <img src="document\images\ea-addins-install2.png" style="zoom:100%;" />
+
+        - Add-Ins是否Loaded状态
+        ![](document\images\ea-addins-install1.png)
+        
+        - 菜单是否可用
+        ![](document\images\ea-addins-install2.png)
