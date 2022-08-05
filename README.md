@@ -1,19 +1,21 @@
 # Enterprise Architect  Mini Add-Ins
 
+本项目利用Enterprise Architect提供的Add-Ins Model、Automation Interface，进行小工具插件开发，主要功能：
 
-这个项目基于Enterprise Architect Add-Ins Model与Automation Interface开发出来的小工具，包含：批量、配置化图片导出；模型内容统计.
+- EA图片导出的扩展，支持配置化、个性化保持、一键批量导出
+- 模型制作内容的统计
 
 
 ## Overview
-由于EA仅支持开发语言VB、C#、Delphi，从而本项目采用支持面向对象开发的C#语言。其中：
-* 基于Windows Form的MiniAddinsFacade工程实现EA对接门面.
-* 基于WPF技术的MiniAddins工程实现EA类似画面的定制、MVVM、实现功能.
+因EA仅支持开发语言VB、C#、Delphi进行Add-Ins扩展开发，本项目采用能支持面向对象开发的C#语言进行。其中：
+* 用基于Windows Form的MiniAddinsFacade与EA做对接门面，实现与EA之间的交互，作为COM组件注册
+* 用基于WPF技术的MiniAddins实现业务处理功能，包含：EA类似画面的定制、MVVM、实现功能等等
 
 ![comp](/uploads/9b9494798d7f8c148ce157b3e3936b67/comp.png)
 
 ## Develope Language and Tool
-* C#
-* .NET Framework 4，Visual Studio 2017
+* C#、.NET Framework 4
+* Visual Studio 2017 Community
 
 ## Function Description 
 ### 用例图
@@ -21,8 +23,8 @@
 ![ea_addins](/uploads/b2d0abfd9e40e27cfcc0cc3f740c0e34/ea_addins.png)
 
 ### 概要说明
-* 插件安装配置
-   - 详细安装方法
+* 配置视角
+   - 插件安装配置：插件注册、DLL Com组件注册等，详细见安装方法段落
 
 * 建模工程师视角
   1. 模型Diagram图片导出(export image、save screen display value)
@@ -43,7 +45,7 @@
   
 * 其它
     - 画面支持中英双语切换;
-    - 支持可通过Diagram名或Package名检索模型图，并且可直接按回车执行检索;
+    - 支持通过指定Diagram名或Package名进行检索模型图，并且可直接按回车即可执行检索;
 
 
 ## Supported
@@ -51,36 +53,35 @@
 * Windows 10 企业版
 
 ## Install
-* 安装方法
-    1. 进入Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
+1. 进入Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
+
+    ```bash
+    MiniAddinsFacade.dll
+    MiniAddins.dll                          
+    System.Windows.Interactivity.dll
+    Microsoft.WindowsAPICodePack.dll
+    Microsoft.WindowsAPICodePack.Shell.dll  
+    ```
+
+2. 注册.net dll作为COM组件，用管理者身份运行“Regist DotNet DLL as Com.bat”文件。在执行之前请确认路径是否正确。
+
+    ``` vbscript
+    REM ================================================
+    REM  Please make sure the path is correct. Change them to your environmnet value if them are incorrent.
+    REM  CheckPoint 1: RegAsm.exe Path
+    REM  CheckPoint 2: MiniAddinsFacade.dll  Path
+    REM ================================================
     
-        ```bash
-        MiniAddinsFacade.dll
-        MiniAddins.dll                          
-        System.Windows.Interactivity.dll
-        Microsoft.WindowsAPICodePack.dll
-        Microsoft.WindowsAPICodePack.Shell.dll  
-        ```
-    
-    2. 注册.net dll作为COM组件，用管理者身份运行“Regist DotNet DLL as Com.bat”文件。在执行之前请确认路径是否正确。
-    
-        ``` vbscript
-        REM ================================================
-        REM  Please make sure the path is correct. Change them to your environmnet value if them are incorrent.
-        REM  CheckPoint 1: RegAsm.exe Path
-        REM  CheckPoint 2: MiniAddinsFacade.dll  Path
-        REM ================================================
-        
-        "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "C:\Program Files (x86)\Sparx Systems\EA Trial\MiniAddinsFacade.dll" /silent
-        ```
-    
-    1. 用管理者身份运行“RegistryEntry_MiniAddins.reg”文件，向注册表登录插件信息。
-    
-    4. 打开Enterprise Architect，检查Add-Ins是否安装成功
-    
-        - Add-Ins是否Loaded状态
-    
-        ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
-    
-        - 菜单是否可用
-        ![ea-addins-install2](/uploads/dc736ade2a0fa9dd8a5f4a83d9b99015/ea-addins-install2.png)
+    "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "C:\Program Files (x86)\Sparx Systems\EA Trial\MiniAddinsFacade.dll" /silent
+    ```
+
+1. 用管理者身份运行“RegistryEntry_MiniAddins.reg”文件，向注册表登录插件信息。
+
+4. 打开Enterprise Architect，检查Add-Ins是否安装成功
+
+    - Add-Ins是否Loaded状态
+
+    ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
+
+    - 菜单是否可用
+    ![ea-addins-install2](/uploads/dc736ade2a0fa9dd8a5f4a83d9b99015/ea-addins-install2.png)
