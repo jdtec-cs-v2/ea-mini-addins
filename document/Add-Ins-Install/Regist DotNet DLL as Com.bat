@@ -1,5 +1,8 @@
-REM Please make sure the path is correct.
-REM CheckPoint 1: RegAsm.exe Path
-REM CheckPoint 2: MiniAddinsFacade.dll  Path
+REM ========================================================================
+REM  Please make sure the path is correct. 
+REM  Change them to your environmnet value if them are incorrent.
+REM  CheckPoint 1: RegAsm.exe Path
+REM  CheckPoint 2: MiniAddinsFacade.dll  Path
+REM ========================================================================
 
 "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "C:\Program Files (x86)\Sparx Systems\EA Trial\MiniAddinsFacade.dll" /silent
