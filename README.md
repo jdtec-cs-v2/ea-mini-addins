@@ -52,14 +52,34 @@
 
 ## Install
 * 安装方法
-    1. 进入Add-Ins-Install目录，双击“RegistryEntry_MiniAddins.reg”文件（注册EA插件）
+    1. 进入Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
     
-    2. 把dll子目录中的MiniAddinsFacade等DLL文件拷贝到Enterprise Architect的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial
+        ```bash
+        MiniAddinsFacade.dll
+        MiniAddins.dll                          
+        System.Windows.Interactivity.dll
+        Microsoft.WindowsAPICodePack.dll
+        Microsoft.WindowsAPICodePack.Shell.dll  
+        ```
     
-    3. 打开Enterprise Architect，检查Add-Ins是否安装成功
+    2. 注册.net dll作为COM组件，用管理者身份运行“Regist DotNet DLL as Com.bat”文件。在执行之前请确认路径是否正确。
+    
+        ``` vbscript
+        REM ================================================
+        REM  Please make sure the path is correct. Change them to your environmnet value if them are incorrent.
+        REM  CheckPoint 1: RegAsm.exe Path
+        REM  CheckPoint 2: MiniAddinsFacade.dll  Path
+        REM ================================================
+        
+        "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "C:\Program Files (x86)\Sparx Systems\EA Trial\MiniAddinsFacade.dll" /silent
+        ```
+    
+    1. 用管理者身份运行“RegistryEntry_MiniAddins.reg”文件，向注册表登录插件信息。
+    
+    4. 打开Enterprise Architect，检查Add-Ins是否安装成功
     
         - Add-Ins是否Loaded状态
-        
+    
         ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
     
         - 菜单是否可用
