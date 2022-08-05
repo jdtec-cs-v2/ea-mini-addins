@@ -54,7 +54,7 @@
 * Windows 10 企业版
 
 ## Install
-1. 进入Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
+1. 进入document\Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
 
     ```bash
     MiniAddinsFacade.dll
