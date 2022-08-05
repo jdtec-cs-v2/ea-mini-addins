@@ -43,8 +43,9 @@
   4. 保存画面上设定值(save screen display value) <br/>
      - 点击【Confirm】按钮，保存模型的图片导出状况、导出文件名、路径。再次打开模型时，如已导出的Diagram有改变，则显示“changed”，并且呈现变更背景色。
   
-* 其它
+* 其它Key Point
     - 画面支持中英双语切换
+    - 点击Cancel按钮时关闭时，将不会保存当次打开后的变化点
     - 支持通过指定Diagram名或Package名进行检索模型图，并且可直接按回车即可执行检索
     - 图片导出配置列表中，Diagram、Sub Directory单元格可点击进行编辑
 
