@@ -66,11 +66,12 @@
 2. 注册.net dll作为COM组件，用管理者身份运行“Regist DotNet DLL as Com.bat”文件。在执行之前请确认路径是否正确。
 
     ``` vbscript
-    REM ================================================
-    REM  Please make sure the path is correct. Change them to your environmnet value if them are incorrent.
+    REM ========================================================================
+    REM  Please make sure the path is correct. 
+    REM  Change them to your environmnet value if them are incorrent.
     REM  CheckPoint 1: RegAsm.exe Path
     REM  CheckPoint 2: MiniAddinsFacade.dll  Path
-    REM ================================================
+    REM ========================================================================
     
     "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "C:\Program Files (x86)\Sparx Systems\EA Trial\MiniAddinsFacade.dll" /silent
     ```
