@@ -170,7 +170,7 @@ namespace MiniAddinsFacade
             // elementHost
             // 
             this.elementHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 9F);
+            this.elementHost.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.elementHost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.elementHost.Location = new System.Drawing.Point(0, 0);
             this.elementHost.Name = "elementHost";
@@ -189,7 +189,7 @@ namespace MiniAddinsFacade
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
             this.ClientSize = new System.Drawing.Size(938, 625);
             this.Controls.Add(this.elementHost);
-            this.Font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -215,7 +215,7 @@ namespace MiniAddinsFacade
 		{
             // Adjust From and Font Size
             int sizeScale = GetWindowsScaling();
-
+            
             if (sizeScale != 100)
             {
                 // Font Size
