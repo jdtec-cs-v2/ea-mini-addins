@@ -54,17 +54,18 @@
 * Windows 10 企业版
 
 ## Install
-1. 进入document\Add-Ins-Install目录，把dll子目录中拷贝下列DLL文件到Enterprise Architect所在的安装目录，例如：C:\Program Files (x86)\Sparx Systems\EA Trial 
+1. 进入document\Add-Ins-Install目录，把dll子目录中如下5个dll文件，拷贝到Enterprise Architect的安装目录(例如：C:\Program Files (x86)\Sparx Systems\EA Trial)
 
     ```bash
-    MiniAddinsFacade.dll
-    MiniAddins.dll                          
-    System.Windows.Interactivity.dll
-    Microsoft.WindowsAPICodePack.dll
-    Microsoft.WindowsAPICodePack.Shell.dll  
+    114,176 Microsoft.WindowsAPICodePack.dll
+    587,776 Microsoft.WindowsAPICodePack.Shell.dll
+    71,680 MiniAddins.dll
+    28,672 MiniAddinsFacade.dll
+    39,936 System.Windows.Interactivity.dll
+                   5 个文件        842,240 字节
     ```
 
-2. 注册.net dll作为COM组件，用管理者身份运行“Regist DotNet DLL as Com.bat”文件。在执行之前请确认路径是否正确。
+2. 用管理者身份运行“Regist DotNet DLL as Com.bat”文件，注册.net dll作为COM组件。在执行之前请确认路径是否正确。
 
     ``` vbscript
     REM ========================================================================
