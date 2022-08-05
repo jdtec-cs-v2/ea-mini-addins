@@ -79,9 +79,9 @@
 
 4. 打开Enterprise Architect，检查Add-Ins是否安装成功
 
-    - Add-Ins是否Loaded状态
+    - Add-Ins的Stauts是否为Enabled ，并让Check Load On Startup。[Specialize -> Manage Add-Ins]
 
-    ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
+      ![ea-addins-install1](/uploads/e9d545ef2fce7fd46c49134c803e6b36/ea-addins-install1.png)
 
-    - 菜单是否可用
+    - 打开模型文件后，插件的菜单项目是否可用
     ![ea-addins-install2](/uploads/dc736ade2a0fa9dd8a5f4a83d9b99015/ea-addins-install2.png)
