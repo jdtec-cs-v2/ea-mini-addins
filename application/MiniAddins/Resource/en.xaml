@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys='clr-namespace:System;assembly=mscorlib'>
+
+    <sys:String x:Key="multilang_01">Export Image</sys:String>
+    <sys:String x:Key="multilang_02">Statistics</sys:String>
+
+    <sys:String x:Key="multilang_011">Copy</sys:String>
+    <sys:String x:Key="multilang_012">Copy All</sys:String>
+
+    <sys:String x:Key="multilang_11">Basic Settings</sys:String>
+    <sys:String x:Key="multilang_12">Image Scale</sys:String>
+    <sys:String x:Key="multilang_13">Image Save Root Path：</sys:String>
+    <sys:String x:Key="multilang_14">...</sys:String>
+    <sys:String x:Key="multilang_15">Image scale is set by EA [ Publish->Save->Scale Image ]</sys:String>
+
+    <sys:String x:Key="multilang_21">Custom Settings</sys:String>
+    <sys:String x:Key="multilang_22">Selected</sys:String>
+    <sys:String x:Key="multilang_23">Diagram</sys:String>
+    <sys:String x:Key="multilang_24">Scale</sys:String>
+    <sys:String x:Key="multilang_25">Sub Directory</sys:String>
+    <sys:String x:Key="multilang_26">Export</sys:String>
+    <sys:String x:Key="multilang_27">All Select</sys:String>
+    <sys:String x:Key="multilang_28">Set Sub Directory</sys:String>
+    <sys:String x:Key="multilang_281">Set Sub Directory with Package Path</sys:String>
+    <sys:String x:Key="multilang_29">State</sys:String>
+    <sys:String x:Key="multilang_290">not exported</sys:String>
+    <sys:String x:Key="multilang_291">exported</sys:String>
+    <sys:String x:Key="multilang_292">changed</sys:String>
+
+    <sys:String x:Key="multilang_221">Action</sys:String>
+    <sys:String x:Key="multilang_222">copy image export path</sys:String>
+    <sys:String x:Key="multilang_223">copy diagram image to clipboard</sys:String>
+    <sys:String x:Key="multilang_224">open diagram on EA</sys:String>
+
+    <sys:String x:Key="multilang_31">Switch to Chinese</sys:String>
+    <sys:String x:Key="multilang_32">Confirm</sys:String>
+    <sys:String x:Key="multilang_33">Cancel</sys:String>
+
+    <sys:String x:Key="multilang_message_01">Please select a folder</sys:String>
+    <sys:String x:Key="multilang_message_02">Save File</sys:String>
+
+
+    <sys:String x:Key="multilang_40">All Types</sys:String>
+    <sys:String x:Key="multilang_41">Filter</sys:String>
+    <sys:String x:Key="multilang_42">Element Type：</sys:String>
+    <sys:String x:Key="multilang_43">Author：</sys:String>
+
+    <sys:String x:Key="multilang_51">Result</sys:String>
+    <sys:String x:Key="multilang_52">Type</sys:String>
+    <sys:String x:Key="multilang_53">Author</sys:String>
+    <sys:String x:Key="multilang_54">Count</sys:String>
+
+    <sys:String x:Key="multilang_61">Copy to Clipboard</sys:String>
+    <sys:String x:Key="multilang_62">Save to File</sys:String>
+    
+</ResourceDictionary>

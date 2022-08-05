@@ -1,0 +1,109 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cnv="clr-namespace:MiniAddins.Converter"
+                    xmlns:model="clr-namespace:MiniAddins.Models">
+
+    <cnv:DynamicResourceValueConverter x:Key="DynamicResourceValueConverter"/>
+    <cnv:StateValueConverter x:Key="StateValueConverter"/>
+    <cnv:VisibilityConverter x:Key="VisibilityConverter"/>
+
+    
+    <BitmapImage x:Key="ImageSourceCopy" UriSource="/MiniAddins;component/Icons/copy.png"/>
+    <BitmapImage x:Key="ImageSourceImage" UriSource="/MiniAddins;component/Icons/image.png"/>
+    <BitmapImage x:Key="ImageSourceOpen" UriSource="/MiniAddins;component/Icons/open.png"/>
+    <BitmapImage x:Key="DiagramSearch" UriSource="/MiniAddins;component/Icons/search.png"/>
+    
+    <SolidColorBrush x:Key="FormCaptionBackgroud" Color="#FF557DA5"/>
+    <ImageBrush x:Key="FormCaptionClose" ImageSource="..\Icons\close.png"/>
+    <Style x:Key="CaptionForeColor" TargetType="Label">
+        <Setter Property="Foreground" Value="#FFC7CCCC"/>
+    </Style>
+
+
+    <Style  x:Key="CloseStyle" TargetType="Rectangle">
+        <Setter Property="Rectangle.Margin" Value="12,4,8,4"/>
+        <Setter Property="Rectangle.Stretch" Value="Uniform"/>
+        <Setter Property="Rectangle.Fill" Value="{StaticResource FormCaptionClose}" />
+    </Style>
+
+    <Style TargetType="ContentControl" x:Key="CloseControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate >
+                    <Grid>
+                        <Rectangle Fill="{StaticResource FormCaptionBackgroud}" x:Name="CloseRectangle"  />
+                        <Rectangle Style="{StaticResource CloseStyle}" />                        
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ContentControl.IsMouseOver" Value="True">
+                            <Setter TargetName="CloseRectangle" Property="Fill" Value="Red"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- tool Template -->
+    <DataTemplate DataType="{x:Type model:ToolCat}">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="6">
+
+            <!-- Image Template -->
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding Icon}" />
+                    <Label Content="{Binding DisplayNameResourceKey, Converter={StaticResource DynamicResourceValueConverter}}" 
+                                    >
+                    </Label>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <Style TargetType="Border" x:Key="BorderStyle">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"/>
+    </Style>
+
+    <Style TargetType="GroupBox" x:Key="GroupStyle">
+        <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
+    </Style>
+
+    <!-- Flat Button Style -->
+    <Color x:Key="DefaultColor" A="255" R="240" G ="240" B="240"/>
+    <Color x:Key="HighlightColor" A="255" R="220" G ="220" B="220" />
+    <Color x:Key="PressedColor" A="255" R="215" G ="215" B="215"/>
+    <SolidColorBrush x:Key="DefaultBrush" Color="{StaticResource DefaultColor}" />
+    <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}" />
+    <SolidColorBrush x:Key="PressedBrush" Color="{StaticResource PressedColor}" />
+
+    <Style TargetType="Button" x:Key="FlatButtonStyle">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background" Value="{StaticResource DefaultBrush}" />
+        <Setter Property="BorderThickness" Value="0" />        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    Background="{TemplateBinding Background}"
+                    Padding="{TemplateBinding Padding}"
+                    CornerRadius="0">
+                        <ContentControl Content="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource HighlightBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+</ResourceDictionary>

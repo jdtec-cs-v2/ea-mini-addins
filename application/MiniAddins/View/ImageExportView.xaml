@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="MiniAddins.View.ImageExportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="ImageExportViewEl" >
+    
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MiniAddins;component/Resource/resource.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*" MinHeight="200"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="0.73cm"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3.2cm"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="2.4cm"/>
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{DynamicResource multilang_11}" Style="{StaticResource GroupStyle}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4cm"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="2.7cm"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.2cm"/>
+                    <ColumnDefinition Width="1cm"/>
+                    <ColumnDefinition Width="0.5cm"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.33cm"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.33cm"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.33cm"/>
+                </Grid.RowDefinitions>
+
+                <Label  Grid.Row="1" Grid.Column="1" Content="{DynamicResource multilang_12}"/>
+                <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Content="{DynamicResource multilang_15}" FontStyle="Italic"></Label>
+                <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Scales}" SelectedItem ="{Binding BasicSetting.Scale}" Visibility="Hidden"  >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description}"></TextBlock>
+                        </DataTemplate>
+
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label  Grid.Row="3" Grid.Column="1" Content="{DynamicResource multilang_13}"/>
+                <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding BasicSetting.RootPath}" VerticalContentAlignment="Center" />
+                <Button Grid.Row="3" Grid.Column="5" Content="{DynamicResource multilang_14}"  Command="{Binding OpenCommand}"/>
+            </Grid>
+
+        </GroupBox>
+        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header="{DynamicResource multilang_21}" Style="{StaticResource GroupStyle}">
+            <Grid>
+                <Grid.Resources>
+                    <Style x:Key="Body_Content_DataGrid_Centering"  TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding ExportState}" Value="1">
+                                <Setter Property="Background" Value="#FFAEAAAA" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ExportState}" Value="2">
+                                <Setter Property="Background" Value="LightGreen" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3cm"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.1cm"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.33cm"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4cm"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.4cm"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="1" Grid.Column="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="80"/>
+
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <CheckBox Content="{DynamicResource multilang_27}" IsChecked="{Binding AllSelected}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom"></CheckBox>
+                    <CheckBox Content="{DynamicResource multilang_290}" IsChecked="{Binding NotExportSelected}" Grid.Column="2" Grid.Row="0" VerticalAlignment="Bottom"></CheckBox>
+                    <CheckBox Content="{DynamicResource multilang_291}" IsChecked="{Binding AlreadySelected}" Grid.Column="4" Grid.Row="0" VerticalAlignment="Bottom"></CheckBox>
+                    <CheckBox Content="{DynamicResource multilang_292}" IsChecked="{Binding HasChangeSelected}" Grid.Column="6" Grid.Row="0" VerticalAlignment="Bottom"></CheckBox>
+                    <!--<Label Content="filter:" Grid.Column="8" Grid.Row="0" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"/>-->
+                    <TextBox Grid.Column="9" Grid.Row="0" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding SearchCommand}" Key="Return" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Grid.Column="11" Grid.Row="0"  BorderThickness="0" Width="17" Height="17" Command="{Binding SearchCommand}" >
+                        <Image Source="{StaticResource DiagramSearch}" Stretch="Fill"/>
+                    </Button>
+                </Grid>
+
+                <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding DisplayCustomSettings}" 
+                          AutoGenerateColumns="False" 
+                          HeadersVisibility="Column" 
+                          CanUserResizeColumns="False" 
+                          RowHeight="20"
+                          CanUserAddRows="False"
+                          CanUserResizeRows="False" 
+                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                          CellStyle="{StaticResource Body_Content_DataGrid_Centering}" GridLinesVisibility="None">
+
+                    <DataGrid.Resources>
+                        <!--<<DataTemplate x:Key="DateTemplate" >
+                            <StackPanel Orientation="Horizontal" Height="25" >
+                                <TextBlock Text="{Binding ExportState ,Converter={StaticResource StateValueConverter}}" Height="Auto" VerticalAlignment="Center" TextAlignment="Center" />                                
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate x:Key="EditingDateTemplate">
+                            <StackPanel Orientation="Horizontal" Height="25" >
+                                <TextBox Text="{Binding Scale.Value, Converter={StaticResource ScaleValueConverter}}"  BorderThickness="0"  />
+                            </StackPanel>
+                        </DataTemplate>-->
+
+                        <DataTemplate x:Key="ActionDateTemplate" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button ToolTip="{DynamicResource multilang_222}" Grid.Column="1" BorderThickness="0"  Command="{Binding ElementName=ImageExportViewEl,Path=DataContext.CopyImagePathCommand }" CommandParameter="{Binding RelativePath}">
+                                    <Image Source="{StaticResource ImageSourceCopy}"/>
+                                </Button>
+                                <Button ToolTip="{DynamicResource multilang_223}" Grid.Column="3" BorderThickness="0" Command="{Binding ElementName=ImageExportViewEl,Path=DataContext.CopyImageCommand }" CommandParameter="{Binding DiagramGUID}">
+                                    <Image Source="{StaticResource ImageSourceImage}"/>
+                                </Button>
+                                <Button ToolTip="{DynamicResource multilang_224}" Grid.Column="5" BorderThickness="0" Command="{Binding ElementName=ImageExportViewEl,Path=DataContext.OpenDiagramCommand }" CommandParameter="{Binding DiagramGUID}">
+                                    <Image Source="{StaticResource ImageSourceOpen}"/>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+
+                        <Style x:Key="SelectedColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_22}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+
+                        <Style x:Key="DiagramColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_23}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+
+                        <Style x:Key="ScaleColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_24}"/>
+                        </Style>
+
+                        <Style x:Key="PathColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_25}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+
+                        <Style x:Key="StateColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_29}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+
+                        <Style x:Key="ActionColStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Content" Value="{DynamicResource multilang_221}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn  Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" Width="1.8cm" HeaderStyle="{StaticResource SelectedColStyle}"/>
+                        <DataGridTextColumn HeaderStyle="{StaticResource DiagramColStyle}" Binding="{Binding Diagram}" Width="5.3cm" />
+                        <!--<DataGridTemplateColumn  HeaderStyle="{StaticResource ScaleColStyle}" 
+                                                 CellTemplate="{StaticResource DateTemplate}"
+                                                 CellEditingTemplate="{StaticResource EditingDateTemplate}" Width="1.5cm">
+                        </DataGridTemplateColumn>-->
+                        <DataGridTextColumn HeaderStyle="{StaticResource PathColStyle}"  Binding="{Binding RelativePath}" Width="252" />
+                        <DataGridTextColumn IsReadOnly="True"   HeaderStyle="{StaticResource StateColStyle}" Binding ="{Binding ExportState ,Converter={StaticResource StateValueConverter}}" Width="80" />
+
+                        <DataGridTemplateColumn  HeaderStyle="{StaticResource ActionColStyle}" 
+                                                 CellTemplate="{StaticResource ActionDateTemplate}" Width="2.0cm">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="White"></Setter>
+                                            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                                        </Trigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                        </DataGridTemplateColumn>
+
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+        </GroupBox>
+
+        <Button Grid.Row="5" Grid.Column="1" Content="{DynamicResource multilang_28}" ToolTip="{DynamicResource multilang_281}" Command="{Binding SetDefaultForlder}"></Button>
+        <Button Grid.Row="5" Grid.Column="3" Content="{DynamicResource multilang_26}" Command="{Binding ExportImage}"></Button>
+    </Grid>
+</UserControl>

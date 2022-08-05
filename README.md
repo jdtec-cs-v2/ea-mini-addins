@@ -15,7 +15,7 @@
 
 ## Develope Language and Tool
 * C#、.NET Framework 4
-* Visual Studio 2017 Community
+* Visual Studio 2017 Community（管理者身份启动）
 
 ## Function Description 
 ### 用例图
@@ -44,8 +44,9 @@
      - 点击【Confirm】按钮，保存模型的图片导出状况、导出文件名、路径。再次打开模型时，如已导出的Diagram有改变，则显示“changed”，并且呈现变更背景色。
   
 * 其它
-    - 画面支持中英双语切换;
-    - 支持通过指定Diagram名或Package名进行检索模型图，并且可直接按回车即可执行检索;
+    - 画面支持中英双语切换
+    - 支持通过指定Diagram名或Package名进行检索模型图，并且可直接按回车即可执行检索
+    - 图片导出配置列表中，Diagram、Sub Directory单元格可点击进行编辑
 
 
 ## Supported

@@ -1,0 +1,56 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys='clr-namespace:System;assembly=mscorlib'>
+
+    <sys:String x:Key="multilang_01">图片导出</sys:String>
+    <sys:String x:Key="multilang_02">统计</sys:String>
+    <sys:String x:Key="multilang_011">拷贝</sys:String>
+    <sys:String x:Key="multilang_012">拷贝所有</sys:String>
+
+    <sys:String x:Key="multilang_11">基本设置</sys:String>
+    <sys:String x:Key="multilang_12">图片比率</sys:String>
+    <sys:String x:Key="multilang_13">图片保存根目录：</sys:String>
+    <sys:String x:Key="multilang_14">...</sys:String>
+    <sys:String x:Key="multilang_15">图像输出比例由EA设定 [ Publish->Save->Scale Image ]</sys:String>
+
+    <sys:String x:Key="multilang_21">个别设置</sys:String>
+    <sys:String x:Key="multilang_22">选择</sys:String>
+    <sys:String x:Key="multilang_23">模型图</sys:String>
+    <sys:String x:Key="multilang_24">比率</sys:String>
+    <sys:String x:Key="multilang_25">保存子目录</sys:String>
+    
+    <sys:String x:Key="multilang_26">导出</sys:String>
+    <sys:String x:Key="multilang_27">全选</sys:String>
+    <sys:String x:Key="multilang_28">设置子目录</sys:String>
+    <sys:String x:Key="multilang_281">使用包路径设置子目录</sys:String>
+    <sys:String x:Key="multilang_29">状态</sys:String>
+    <sys:String x:Key="multilang_290">未导出</sys:String>
+    <sys:String x:Key="multilang_291">已导出</sys:String>
+    <sys:String x:Key="multilang_292">有变更</sys:String>
+    
+    <sys:String x:Key="multilang_221">操作</sys:String>
+    <sys:String x:Key="multilang_222">拷贝导出图片的保存目录</sys:String>
+    <sys:String x:Key="multilang_223">拷贝图片到剪切板</sys:String>
+    <sys:String x:Key="multilang_224">在EA中打开Diagram</sys:String>
+
+    <sys:String x:Key="multilang_31">切换英文</sys:String>
+    <sys:String x:Key="multilang_32">确定</sys:String>
+    <sys:String x:Key="multilang_33">取消</sys:String>
+
+    <sys:String x:Key="multilang_message_01">请选择目录</sys:String>
+    <sys:String x:Key="multilang_message_02">文件保存为</sys:String>
+
+    <sys:String x:Key="multilang_40">所有类型</sys:String>
+    <sys:String x:Key="multilang_41">过滤条件</sys:String>
+    <sys:String x:Key="multilang_42">元素类型：</sys:String>
+    <sys:String x:Key="multilang_43">作者：</sys:String>
+
+    <sys:String x:Key="multilang_51">结果</sys:String>
+    <sys:String x:Key="multilang_52">类型</sys:String>
+    <sys:String x:Key="multilang_53">作者</sys:String>
+    <sys:String x:Key="multilang_54">数量</sys:String>
+
+    <sys:String x:Key="multilang_61">拷贝</sys:String>
+    <sys:String x:Key="multilang_62">保存</sys:String>
+
+</ResourceDictionary>

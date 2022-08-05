@@ -1,0 +1,153 @@
+﻿<UserControl x:Class="MiniAddins.View.ContentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:beh="clr-namespace:MiniAddins.Behaviours"
+             xmlns:local="clr-namespace:MiniAddins.View"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MiniAddins;component/Resource/resource.xaml"/>
+                <ResourceDictionary Source="/MiniAddins;component/Resource/en.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+    <Grid>
+        <Border Style="{StaticResource BorderStyle}" >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.66cm"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="*" MinHeight="200"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="0.73cm"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.94cm"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.1cm"/>
+                    </Grid.RowDefinitions>
+
+                    <Border  Background="{StaticResource FormCaptionBackgroud}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="2" x:Name="MouseContainer">
+                        <i:Interaction.Behaviors>
+                            <beh:EventToCommandBehavior Command="{Binding DragCommand}" Event="MouseLeftButtonDown" PassArguments="True" />
+                            <beh:EventToCommandBehavior Command="{Binding DragCommandUp}" Event="MouseLeftButtonUp" PassArguments="True" />
+                            <beh:EventToCommandBehavior Command="{Binding DragCommandMove}" Event="MouseMove" PassArguments="True" />
+                        </i:Interaction.Behaviors>
+
+                    </Border>
+
+                    <Label Grid.Column="0" Margin="3,1,1,1" Style="{StaticResource CaptionForeColor}" Grid.Row="0" Grid.RowSpan="2">Mini Add-ins</Label>
+
+                    <ContentControl Grid.Column="2" Style="{StaticResource CloseControl}" Grid.Row="0">
+                        <i:Interaction.Behaviors>
+                            <beh:EventToCommandBehavior Command="{Binding ExitCommand}" Event="MouseLeftButtonUp" PassArguments="True" />
+                        </i:Interaction.Behaviors>
+                    </ContentControl>
+
+                </Grid>
+
+                <Border Grid.Row="3" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Margin="2,0"   />
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="3.2cm"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2.4cm"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="2.4cm"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="1" Content="{DynamicResource multilang_31}" Command="{Binding ChangeLanguageCommand}" CommandParameter="{Binding Language}" ></Button>
+                    <Button Grid.Column="3" Content="{DynamicResource multilang_32}" Command="{Binding SaveConfigurationCommand}"></Button>
+                    <Button Grid.Column="5" Content="{DynamicResource multilang_33}" Command="{Binding ExitCommand}"></Button>
+                    
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2"/>
+                        <ColumnDefinition Width="3.8cm"/>
+                        <ColumnDefinition Width="0.6cm"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.6cm"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer  Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        
+                        <ListBox BorderThickness="1,1,1,0"                         
+                         ItemsSource="{Binding ToolCats}"
+                         SelectedIndex="{Binding SelectedIndex}"
+                         x:Name="ListBoxToolCats"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                         >
+
+                        </ListBox>
+
+                    </ScrollViewer>
+
+
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <local:ImageExportView Grid.Row="0"  DataContext="{Binding ImageExportViewModel}"
+                                       Visibility="{Binding ElementName=ListBoxToolCats,Path=SelectedItem.View,Converter={StaticResource VisibilityConverter},ConverterParameter=ImageExportView}"/>
+                        <local:StatisticsView Grid.Row="0" DataContext="{Binding StatisticsViewModel}"
+                                      Visibility="{Binding  ElementName=ListBoxToolCats,Path=SelectedItem.View,Converter={StaticResource VisibilityConverter},ConverterParameter=StatisticsView}"/>
+
+
+                    </Grid>
+                </Grid>
+
+                <StatusBar Grid.Row="7" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" FontSize="10" Visibility="{Binding StatusVisibility}">
+                    <StatusBar.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </StatusBar.ItemsPanel>
+                    <StatusBarItem Grid.Column="0">
+                        <TextBlock Text="{Binding Path=ChangeLog.DisplayString}"></TextBlock>
+                    </StatusBarItem>
+                    <Separator Grid.Column="1"/>
+                    <StatusBarItem Grid.Column="2">
+                        <StackPanel Orientation="Horizontal">
+
+                            <Button Width="35"  Content="{DynamicResource multilang_011}" Style="{StaticResource FlatButtonStyle}" Command="{Binding CopyChangeLogCommand}" CommandParameter="one" ></Button>
+                            <Button Width="40" Content="{DynamicResource multilang_012}" Margin="5,0,5,0" Style="{StaticResource FlatButtonStyle}"  Command="{Binding CopyChangeLogCommand}" CommandParameter="multi" ></Button>
+                            
+                        </StackPanel>
+                    </StatusBarItem>
+                </StatusBar>
+
+            </Grid>
+        </Border>
+    </Grid>
+    
+</UserControl>
