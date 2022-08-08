@@ -227,9 +227,9 @@ namespace MiniAddins.ViewModels
             }
 
             // refresh image export view
-            ObservableCollection<CustomSetting> customSettings = this.ImageExportViewModel.CustomSettings;
-            this.ImageExportViewModel.CustomSettings = null;
-            this.ImageExportViewModel.CustomSettings = customSettings;
+            ObservableCollection<CustomSetting> customSettings = this.ImageExportViewModel.DisplayCustomSettings;
+            this.ImageExportViewModel.DisplayCustomSettings = null;
+            this.ImageExportViewModel.DisplayCustomSettings = customSettings;
         }
         #endregion
 

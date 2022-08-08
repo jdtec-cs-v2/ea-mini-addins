@@ -211,6 +211,15 @@ namespace MiniAddins.ViewModels
         public ObservableCollection<CustomSetting> DisplayCustomSettings
         {
             get { return this.displayCustomSettings; }
+            set
+            {
+                if (Equals(value, this.displayCustomSettings))
+                {
+                    return;
+                }
+                this.displayCustomSettings = value;
+                OnPropertyChanged(nameof(DisplayCustomSettings));
+            }
 
         }
 
@@ -227,7 +236,7 @@ namespace MiniAddins.ViewModels
                 {
                     _ExportImage = new RelayCommand(() => OnExportImage(), () => {
 
-                        return this.CustomSettings.Count(item=>item.Selected)>0;
+                        return this.DisplayCustomSettings.Count(item=>item.Selected)>0;
                     });
                 }
 
@@ -317,7 +326,7 @@ namespace MiniAddins.ViewModels
                         }
                     }, () => {
 
-                        return this.CustomSettings.Count(item => item.Selected) > 0;
+                        return this.DisplayCustomSettings.Count(item => item.Selected) > 0;
                     });
                 }
 
