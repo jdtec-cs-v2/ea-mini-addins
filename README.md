@@ -51,7 +51,7 @@
 
 
 ## Supported
-* Enterprise Architect 15.2.1554
+* Enterprise Architect 15.2.1554,15.0
 * Windows 10 企业版
 
 ## Install
