@@ -103,6 +103,7 @@ namespace MiniAddinsFacade
 				case "&Export Image":
 
                     frmModel frmFacadeModel = new frmModel();
+                    frmFacadeModel.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
                     frmFacadeModel.setEARepository(Repository);
                     frmFacadeModel.SetDisplayToolCatsIndex(0);
                     frmFacadeModel.OpenForm(0);
@@ -113,6 +114,7 @@ namespace MiniAddinsFacade
                     if(this.frmFacade == null)
                     {
                         frmFacade = new frmModel();
+                        frmFacade.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
                         this.modelWatcher = Repository.CreateModelWatcher();
                     }
                     
@@ -125,6 +127,7 @@ namespace MiniAddinsFacade
                 case "&Statistics Report":
 
                     frmModel frmFacadeModelOther = new frmModel();
+                    frmFacadeModelOther.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
                     frmFacadeModelOther.setEARepository(Repository);
                     frmFacadeModelOther.SetDisplayToolCatsIndex(1);
                     frmFacadeModelOther.OpenForm(0);

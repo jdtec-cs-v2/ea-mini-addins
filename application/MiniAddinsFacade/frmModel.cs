@@ -174,7 +174,7 @@ namespace MiniAddinsFacade
             this.elementHost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.elementHost.Location = new System.Drawing.Point(0, 0);
             this.elementHost.Name = "elementHost";
-            this.elementHost.Size = new System.Drawing.Size(938, 625);
+            this.elementHost.Size = new System.Drawing.Size(938, 552);
             this.elementHost.TabIndex = 3;
             this.elementHost.Text = "elementHost1";
             this.elementHost.Child = null;
@@ -187,7 +187,7 @@ namespace MiniAddinsFacade
             // frmModel
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 16);
-            this.ClientSize = new System.Drawing.Size(938, 625);
+            this.ClientSize = new System.Drawing.Size(938, 552);
             this.Controls.Add(this.elementHost);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -215,14 +215,15 @@ namespace MiniAddinsFacade
 		{
             // Adjust From and Font Size
             int sizeScale = GetWindowsScaling();
-            
+
             if (sizeScale != 100)
             {
+                // comment out the fellow codes because AutoScale=Font
                 // Font Size
-                float newFontSize = this.Font.Size * 100 / sizeScale;
-                Font newFont = new Font(this.Font.FontFamily, newFontSize);
-                this.Font = newFont;
-                this.elementHost.Font = newFont;
+                //float newFontSize = this.Font.Size * 100 / sizeScale;
+                //Font newFont = new Font(this.Font.FontFamily, newFontSize);
+                //this.Font = newFont;
+                //this.elementHost.Font = newFont;
 
                 // Form Size
                 this.Width = (int)this.Width * sizeScale / 100;
