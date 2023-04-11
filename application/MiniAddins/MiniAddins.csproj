@@ -69,15 +69,20 @@
     <Compile Include="Converter\DynamicResourceValueConverter.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
     <Compile Include="Models\BasicSetting.cs" />
+    <Compile Include="Models\ModelSetting.cs" />
     <Compile Include="Models\CustomSetting.cs" />
     <Compile Include="Models\StatisticsResult.cs" />
     <Compile Include="Models\ToolCat.cs" />
+    <Compile Include="ViewModels\ModelExportViewModel.cs" />
     <Compile Include="ViewModels\ImageExportViewModel.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="View\ContentView.xaml.cs">
       <DependentUpon>ContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ModelExportView.xaml.cs">
+      <DependentUpon>ModelExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ImageExportView.xaml.cs">
       <DependentUpon>ImageExportView.xaml</DependentUpon>
@@ -100,6 +105,10 @@
     <Page Include="View\ContentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ModelExportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ImageExportView.xaml">
       <SubType>Designer</SubType>
@@ -148,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\table-export.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

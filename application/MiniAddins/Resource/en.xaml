@@ -4,6 +4,7 @@
 
     <sys:String x:Key="multilang_01">Export Image</sys:String>
     <sys:String x:Key="multilang_02">Statistics</sys:String>
+    <sys:String x:Key="multilang_03">Export LDM</sys:String>
 
     <sys:String x:Key="multilang_011">Copy</sys:String>
     <sys:String x:Key="multilang_012">Copy All</sys:String>
@@ -39,6 +40,7 @@
 
     <sys:String x:Key="multilang_message_01">Please select a folder</sys:String>
     <sys:String x:Key="multilang_message_02">Save File</sys:String>
+    <sys:String x:Key="multilang_message_03">Please select excel template file</sys:String>
 
 
     <sys:String x:Key="multilang_40">All Types</sys:String>
@@ -53,5 +55,27 @@
 
     <sys:String x:Key="multilang_61">Copy to Clipboard</sys:String>
     <sys:String x:Key="multilang_62">Save to File</sys:String>
+
+    <sys:String x:Key="multilang_70">Options</sys:String>
+    <sys:String x:Key="multilang_71">Excel Template:</sys:String>
+    <sys:String x:Key="multilang_72">...</sys:String>
     
+    <sys:String x:Key="multilang_73">Model Items</sys:String>
+    <sys:String x:Key="multilang_740">All Select</sys:String>
+    <sys:String x:Key="multilang_74">Selected</sys:String>
+    <sys:String x:Key="multilang_75">Logical Model Diagram</sys:String>
+    <sys:String x:Key="multilang_76">Export Excel</sys:String>
+    <sys:String x:Key="multilang_77">Copy to Clipboard</sys:String>
+
+    <sys:String x:Key="multilang_78">Field Code:</sys:String>
+    <sys:String x:Key="multilang_79">Uppercase</sys:String>
+
+    <sys:String x:Key="multilang_7010">Output Mode:</sys:String>
+    <sys:String x:Key="multilang_7011">One Model One Sheet</sys:String>
+
+    <sys:String x:Key="multilang_7020">Diagram Size:</sys:String>
+    <sys:String x:Key="multilang_7021">Original</sys:String>
+    <sys:String x:Key="multilang_7022">Customize(Row Multiple)</sys:String>
+
+
 </ResourceDictionary>

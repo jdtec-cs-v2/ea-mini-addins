@@ -9,9 +9,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Text.RegularExpressions;
 
 namespace MiniAddinsFacade
 {
@@ -37,6 +41,8 @@ namespace MiniAddinsFacade
         private List<EaElement> eaElements = new List<EaElement>();
         private System.Windows.Forms.Timer timerModelWatcher;
         private String[] eaModelInfo;
+
+        private List<ModelSetting> modelSettings = new List<ModelSetting>();
 
         /// <summary>
         /// Set EA Repository Object
@@ -134,6 +140,7 @@ namespace MiniAddinsFacade
             this.ContentView.OnImageExport += new MiniAddins.View.ContentView.ElementHostImageExportEventHandler(ContentView_OnImageExport);
             this.ContentView.OnColButtonClick += new MiniAddins.View.ContentView.ElementHostColButtonClickEventHandler(ContentView_OnColButtonClick);
             this.ContentView.OnAllTypesClick += new MiniAddins.View.ContentView.ElementHostAllTypesClickEventHandler(ContentView_OnAllTypesClick);
+            this.ContentView.OnModelExport += new MiniAddins.View.ContentView.ElementHostModelExportEventHandler(ContentView_OnModelExport);
 
         }
 
@@ -259,6 +266,7 @@ namespace MiniAddinsFacade
             this.packageDict.Clear();
             this.customSettings.Clear();
             this.eaElements.Clear();
+            this.modelSettings.Clear();
 
             // Parse EA model fiie
             eaModelInfo = ParseRootPathFromModel(this.m_Repository.ConnectionString);
@@ -287,6 +295,9 @@ namespace MiniAddinsFacade
 
             // set statistics data to view
             this.ContentView.SetStatisticsResult(eaElements);
+
+            // set model export data to view
+            this.ContentView.SetModelExportViewModel(this.modelSettings);
 
             this.ContentView.SetToolCatsIndex(this.displayToolCatsIndex);
 
@@ -347,8 +358,89 @@ namespace MiniAddinsFacade
             // Count Diagram as Element 
             GetElementFromDiagram(this.eaElements);
 
+            // reflex to model items
+            ReflectToModelExportViewModel();
+
         }
 
+
+        /// <summary>
+        /// Reflect Diagram Infomation to model export view model
+        /// </summary>
+        private void ReflectToModelExportViewModel()
+        {
+            EA.IDualDiagram dualDiagram;
+            EA.IDualElement el;
+
+            // reflex to mode items
+            this.customSettings.ForEach(item => {
+
+                this.modelSettings.Add(new ModelSetting()
+                {
+                    DiagramGUID = item.DiagramGUID,
+                    Diagram = item.Diagram,
+                    Selected = true,
+                    PackageName = item.PackageName,
+                    PackageGUID = item.PackageGUID,
+                    PackageFullName = item.PackageFullName,
+                    Created = item.Created,
+                    Modified = item.Modified,
+                    ModelReportRecord = new List<ModelReportRecordDto>(),
+                    DiagramUnique ="D_"+ ReplaceSheetName(item.Diagram),
+                    PackageNameUnique="P_" + ReplaceSheetName(item.PackageName)                    
+
+                });
+
+                dualDiagram = (EA.IDualDiagram)this.m_Repository.GetDiagramByGuid(item.DiagramGUID);
+                if(dualDiagram.DiagramObjects != null)
+                {
+                    foreach (EA.DiagramObject dgrmObject in dualDiagram.DiagramObjects)
+                    {
+                        el = this.m_Repository.GetElementByID(dgrmObject.ElementID);
+                        foreach (EA.Attribute attribute in el.Attributes)
+                        {
+
+                            this.modelSettings.LastOrDefault().ModelReportRecord.Add(new ModelReportRecordDto()
+                            {
+                                TableGUID = el.ElementGUID,
+                                TableNote = el.Notes,
+                                TableName = el.Name,
+                                FieldName = attribute.Name,
+                                FieldNote = attribute.Notes,
+                                FieldType = attribute.Type,
+                                FieldIsId = attribute.IsID ? "1" : "0"
+
+                            });
+                        }
+
+                    }
+
+                }
+            });
+        }
+
+
+        /// <summary>
+        ///  格式化SheetName
+        /// </summary>
+        /// <param name="sheetName"></param>
+        /// <returns></returns>
+        private string ReplaceSheetName(string sheetName)
+        {
+            sheetName = sheetName.Replace(@":", string.Empty);
+            sheetName = sheetName.Replace(@"\", string.Empty);
+            sheetName = sheetName.Replace(@"/", string.Empty);
+            sheetName = sheetName.Replace(@"?", string.Empty);
+            sheetName = sheetName.Replace(@"*", string.Empty);
+            sheetName = sheetName.Replace(@"[", string.Empty);
+            sheetName = sheetName.Replace(@"]", string.Empty);
+            if (sheetName.Length >= 28)
+            {
+                sheetName = sheetName.Substring(0, 28);
+            }
+            return sheetName;
+
+        }
         /// <summary>
         /// Get Elements Infomation,return CustomSetting List
         /// </summary>        
@@ -361,8 +453,6 @@ namespace MiniAddinsFacade
                 // read element
                 ReadElementFromByPackage(Kid, this.eaElements);
             }
-
-
         }
 
         /// <summary>
@@ -481,6 +571,7 @@ namespace MiniAddinsFacade
                     Author = el.Author,
                     Name = el.Name
                 });
+
             }
 
         }
@@ -617,7 +708,7 @@ namespace MiniAddinsFacade
             {
                 this.m_Repository.OpenDiagram(this.diagramDict[args.DiagramGUID].DiagramID);
 
-            }
+            }            
         }
 
         /// <summary>
@@ -701,6 +792,302 @@ namespace MiniAddinsFacade
             
 
         }
+        #endregion
+
+
+        #region Model Excel Export Handler
+        /// <summary>
+        /// Handle Model Excel Export
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ContentView_OnModelExport(object sender, MiniAddins.View.ContentView.ModelExportEventArgs args)
+        {
+            Excel.Application xlApp = null;
+            Excel._Workbook oWB = null;
+            Excel._Worksheet oSheet = null;
+            Excel._Worksheet oSheetDiagram = null;
+            
+            string excelTemplate;
+            string sheetName = "${package}";
+            string sheetNameDiagram = "${diagram}";
+            Dictionary<string,TemplateDefination> templateDefiniation;
+
+            int imageHeightRatio = 20;
+            float rowHeight = 15.0f;
+            
+            excelTemplate = args.modelOptionSetting.ExcelTemplate;
+            templateDefiniation = DefineTemplateInfo();
+
+            Excel._Worksheet oNewSheet = null;
+            Excel._Worksheet oNewSheetDiagram = null;
+
+
+            int.TryParse(args.modelOptionSetting.RowMultiple.ToString(), out imageHeightRatio);
+            
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+
+                xlApp = new Excel.Application();
+                oWB = xlApp.Workbooks.Open(excelTemplate);
+
+                // search template sheet
+                foreach(Excel._Worksheet ws in oWB.Sheets)
+                {
+                    if (ws.Name.Equals(sheetName))
+                    {
+                        oSheet = ws;
+                    }
+
+                    if (ws.Name.Equals(sheetNameDiagram))
+                    {
+                        oSheetDiagram = ws;
+                    }
+                }
+               
+                if(oSheet == null) 
+                    oSheet = (Excel._Worksheet)oWB.Worksheets[1];
+
+                if (oSheetDiagram == null)
+                    oSheetDiagram = (Excel._Worksheet)oWB.Worksheets.Add(After:oSheet);
+
+                // adjust row height
+                oSheetDiagram.Rows.RowHeight = rowHeight;
+
+                // get template cell location
+                Excel.Range colRange = oSheet.Columns;
+                foreach(string key in templateDefiniation.Keys)
+                {
+                        Excel.Range resultRange = colRange.Find(
+                                        What: key,
+                                        LookIn: Excel.XlFindLookIn.xlValues,
+                                        LookAt: Excel.XlLookAt.xlPart,
+                                        SearchOrder: Excel.XlSearchOrder.xlByRows,
+                                        SearchDirection: Excel.XlSearchDirection.xlNext);
+                    if (resultRange != null)
+                    {
+                        templateDefiniation[key].location.row= resultRange.Cells.Row;
+                        templateDefiniation[key].location.column = resultRange.Cells.Column;
+
+                    }
+                }
+
+                int rowIndex = 0;
+                int diagramIndex = 0;
+                int rowLocation = 0;
+                string value;
+                int sheetCopyIndex = 2;
+                int intervalRow = 1;
+
+                oNewSheet = oSheet;
+                oNewSheetDiagram = oSheetDiagram;
+                foreach (ModelSetting setting in args.modelSettings)
+                {
+                    // when output mode is "one model one sheet",create sheet
+                    if (args.modelOptionSetting.IsDivdedSheet)
+                    {
+                        Debug.WriteLine($"{setting.PackageName}\\{setting.Diagram}");
+
+                        oSheet.Copy(After: oNewSheetDiagram);
+                        sheetCopyIndex = sheetCopyIndex + 1;
+                        oNewSheet = oWB.Worksheets[sheetCopyIndex];
+                        oNewSheet.Name = setting.PackageNameUnique;
+
+                        oSheetDiagram.Copy(After: oNewSheet);
+                        sheetCopyIndex = sheetCopyIndex + 1;
+                        oNewSheetDiagram = oWB.Worksheets[sheetCopyIndex];
+                        oNewSheetDiagram.Name = setting.DiagramUnique;
+
+                        rowIndex = 0;
+                    }                    
+
+                    // write to cell
+                    setting.ModelReportRecord.ForEach(item => {
+
+                        foreach (string key in templateDefiniation.Keys)
+                        {
+                            if(key.Equals("${START_LINE}"))
+                            {
+                                value = rowIndex.ToString();
+                            }
+                            else
+                            {
+                                value = GetValueByPropertyName(item.GetType(), templateDefiniation[key].propertyName, item,args.modelOptionSetting.IsUpperCase);
+
+                            }                            
+                            int row = templateDefiniation[key].location.row;
+                            int column = templateDefiniation[key].location.column;
+                            oNewSheet.Cells[row+ rowIndex, column].value = value;
+                        }
+
+                        rowIndex = rowIndex + 1;
+                    });
+
+                    
+
+                    // paste diagram image to excel
+                    EA.IDualProject dualProject = this.m_Repository.GetProjectInterface();
+                    bool success = false;
+                    success = dualProject.PutDiagramImageOnClipboard(setting.DiagramGUID, 1);
+                    if (!success)
+                    {
+                        Debug.WriteLine(dualProject.GetLastError());
+                    }
+                    else
+                    {
+                        this.m_Repository.CloseDiagram(this.diagramDict[setting.DiagramGUID].DiagramID);
+
+                        oNewSheetDiagram.Cells[rowLocation + 1, 1].value = setting.Diagram;
+                        oNewSheetDiagram.Paste(oNewSheetDiagram.Cells[rowLocation + 2, 2], false);
+                        Excel.Shape shape = oNewSheetDiagram.Shapes.Item(diagramIndex + 1);
+
+
+                        // when it is not original size,set picture height
+                        if (!args.modelOptionSetting.OriginalSize)
+                        {
+                            shape.Height = rowHeight * imageHeightRatio;
+                            rowLocation = rowLocation + imageHeightRatio + 1;
+                        }
+                        else
+                        {
+                            rowLocation = rowLocation + (int)(shape.Height / rowHeight) + 2;
+
+                        }
+                        rowLocation = rowLocation + intervalRow;
+
+                        // when paste to same sheet, plus
+                        if (!args.modelOptionSetting.IsDivdedSheet)
+                        {
+                            diagramIndex = diagramIndex + 1;
+                        }
+                        else
+                        {
+                            rowLocation = 0;
+                        }
+                    }                    
+                }
+
+                // when output mode is "one model one sheet",delete template sheet
+                if (args.modelOptionSetting.IsDivdedSheet)
+                {
+                    
+                    oSheet.Visible = Excel.XlSheetVisibility.xlSheetHidden;
+                    oSheetDiagram.Visible = Excel.XlSheetVisibility.xlSheetHidden;
+
+                }
+
+                xlApp.Visible = false;
+                xlApp.UserControl = false;
+
+                string saveExcelFile;
+                FileInfo fileInfo = new FileInfo(excelTemplate);
+                saveExcelFile = $"{fileInfo.DirectoryName}\\LDM_{Environment.UserName}_{DateTime.Now.ToString("yyyyMMddhhmmss")}.xlsx";
+                oWB.SaveAs(saveExcelFile);
+                oWB.Close();
+                Marshal.ReleaseComObject(oWB);
+                oWB = null;
+
+                string message = $"Exported LDM is saved. \r\n {saveExcelFile}";
+                string caption = "Export Complete!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                System.Windows.Forms.MessageBox.Show(message,caption,buttons, MessageBoxIcon.Information);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                System.Windows.Forms.MessageBox.Show(e.Message,"Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (xlApp != null)
+                {
+                    xlApp.Visible = true;
+                    xlApp.UserControl = true;                   
+                }
+            }
+            finally
+            {
+                // Set cursor as default arrow
+                Cursor.Current = Cursors.Default;
+
+                //cleanup
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                if (oWB != null)
+                {
+                    oWB.Close();
+                    Marshal.ReleaseComObject(oWB);
+                }
+
+                if (xlApp != null)
+                {
+                    xlApp.Quit();
+                    Marshal.ReleaseComObject(xlApp);
+                }
+            }
+        }
+
+        /// <summary>
+        /// TemplateLocation
+        /// </summary>
+        private class TemplateLocation
+        {
+            public int row;
+            public int column;
+
+            public TemplateLocation(int row, int column)
+            {
+                this.row = row;
+                this.column = column;
+            }
+        }
+
+
+        /// <summary>
+        /// TemplateDefination
+        /// </summary>
+        private class TemplateDefination
+        {
+            public string propertyName;
+            public TemplateLocation location;
+
+            public TemplateDefination(string propertyName, TemplateLocation location)
+            {
+                this.propertyName = propertyName;
+                this.location = location;
+            }
+        }
+        
+
+        /// <summary>
+        /// 定义模板信息
+        /// </summary>
+        /// <returns>key: 预留字符，value:model property name,(startrow,startcol)</returns>
+        private Dictionary<string, TemplateDefination> DefineTemplateInfo()
+        {
+            Dictionary<string, TemplateDefination> templateDefination = new Dictionary<string, TemplateDefination>();
+            templateDefination.Add("${START_LINE}", new TemplateDefination("",new TemplateLocation(1, 1)));
+            templateDefination.Add("${TABLE_NOTE}", new TemplateDefination("TableNote", new TemplateLocation(1, 2)));
+            templateDefination.Add("${TABLE_NAME}", new TemplateDefination("TableName", new TemplateLocation(1, 3)));
+            templateDefination.Add("${FIELD_NOTE}", new TemplateDefination("FieldNote", new TemplateLocation(1, 4)));
+            templateDefination.Add("${FIELD_NAME}", new TemplateDefination("FieldName", new TemplateLocation(1, 5)));
+            templateDefination.Add("${FIELD_TYPE}", new TemplateDefination("FieldType", new TemplateLocation(1, 6)));
+            templateDefination.Add("${FIELD_ISID}", new TemplateDefination("FieldIsId", new TemplateLocation(1, 7)));
+            templateDefination.Add("${FIELD_ISEMPTY}", new TemplateDefination("FieldIsId", new TemplateLocation(1, 8)));
+            return templateDefination;
+        }
+
+        private string GetValueByPropertyName(Type type,string propertyName,object target,bool isUpper)
+        {
+            var property = type.GetProperty(propertyName);
+            string sResult = (string)property.GetValue(target, null);
+            if (isUpper)
+            {
+                sResult = sResult.ToUpper();
+            }
+            return sResult;            
+        }
+
+
         #endregion
 
     }

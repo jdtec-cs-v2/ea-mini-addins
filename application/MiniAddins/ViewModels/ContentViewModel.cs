@@ -21,6 +21,7 @@ namespace MiniAddins.ViewModels
 
         #region 构建函数及变量定义
         public ContentView userControl;
+        private static string LDM_MODEL_SUFFIX = "_ldmmodel.xml";
         private List<ChangeLog> changeLogs;
         
         /// <summary>
@@ -108,7 +109,8 @@ namespace MiniAddins.ViewModels
         {
             toolCats.Clear();
             toolCats.Add(new ToolCat() { Key = "export_image", Icon = @"..\Icons\file-export.png", View = @"ImageExportView", DisplayNameResourceKey = "multilang_01" });
-            toolCats.Add(new ToolCat() { Key = "export_image", Icon = @"..\Icons\sigma.png", View = @"StatisticsView", DisplayNameResourceKey = "multilang_02" });
+            toolCats.Add(new ToolCat() { Key = "statistics", Icon = @"..\Icons\sigma.png", View = @"StatisticsView", DisplayNameResourceKey = "multilang_02" });
+            toolCats.Add(new ToolCat() { Key = "export_table", Icon = @"..\Icons\table-export.png", View = @"ModelExportView", DisplayNameResourceKey = "multilang_03" });
 
         }
         #endregion
@@ -124,6 +126,22 @@ namespace MiniAddins.ViewModels
                     imageExportViewModel = new ImageExportViewModel(this);
 
                 return imageExportViewModel;
+            }
+        }
+
+        #endregion
+
+
+        #region ModelExportViewModel
+        ModelExportViewModel modelExportViewModel = null;
+        public ModelExportViewModel ModelExportViewModel
+        {
+            get
+            {
+                if (modelExportViewModel == null)
+                    modelExportViewModel = new ModelExportViewModel(this);
+
+                return modelExportViewModel;
             }
         }
 
@@ -230,6 +248,11 @@ namespace MiniAddins.ViewModels
             ObservableCollection<CustomSetting> customSettings = this.ImageExportViewModel.DisplayCustomSettings;
             this.ImageExportViewModel.DisplayCustomSettings = null;
             this.ImageExportViewModel.DisplayCustomSettings = customSettings;
+
+            // refresh model export view
+            ObservableCollection<ModelSetting> modelSettings = this.ModelExportViewModel.DisplayModelSetting;
+            this.ModelExportViewModel.DisplayModelSetting = null;
+            this.ModelExportViewModel.DisplayModelSetting = modelSettings;
         }
         #endregion
 
@@ -362,6 +385,7 @@ namespace MiniAddins.ViewModels
                 {
                     this.saveConfigurationCommand = new RelayCommand(()=> {
                         SerializeViewModel();
+                        SerializeModelExportViewModel();
                         this.userControl.FireExitEvent();
                     });
                 }
@@ -406,6 +430,7 @@ namespace MiniAddins.ViewModels
             TextWriter writer = new StreamWriter(xmlFile);
             serializer.Serialize(writer, this.ImageExportViewModel);
             writer.Close();
+
         }
 
         /// <summary>
@@ -423,6 +448,41 @@ namespace MiniAddins.ViewModels
             FileStream fs = new FileStream(xmlFile, FileMode.Open);
 
             return serializer.Deserialize(fs) as ImageExportViewModel;
+
+        }
+
+        /// <summary>
+        /// 序列化ModelExportViewModel
+        /// </summary>
+        public void SerializeModelExportViewModel()
+        {
+            string xmlFile = GetConfigFilePath();
+            XmlSerializer serializer = new XmlSerializer(typeof(ModelExportViewModel));
+
+            // 逻辑模型序列化
+            string xmlFileForLdmModel = xmlFile.Replace(".xml", LDM_MODEL_SUFFIX);
+            TextWriter writer = new StreamWriter(xmlFileForLdmModel);
+            serializer.Serialize(writer, this.ModelExportViewModel);
+            writer.Close();
+        }
+
+        /// <summary>
+        /// 反序列化ModelExportViewModel
+        /// </summary>
+        /// <returns></returns>
+        public ModelExportViewModel DeserializeModelExportViewModel()
+        {
+            string xmlFile = GetConfigFilePath();
+            string xmlFileForLdmModel = xmlFile.Replace(".xml", LDM_MODEL_SUFFIX);
+
+            if (!File.Exists(xmlFileForLdmModel))
+            {
+                return null;
+            }
+            XmlSerializer serializer = new XmlSerializer(typeof(ModelExportViewModel));
+            FileStream fs = new FileStream(xmlFileForLdmModel, FileMode.Open);
+
+            return serializer.Deserialize(fs) as ModelExportViewModel;
 
         }
         #endregion

@@ -219,7 +219,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn  Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" Width="1.8cm" HeaderStyle="{StaticResource SelectedColStyle}"/>
-                        <DataGridTextColumn HeaderStyle="{StaticResource DiagramColStyle}" Binding="{Binding Diagram}" Width="5.3cm" />
+                        <DataGridTextColumn HeaderStyle="{StaticResource DiagramColStyle}" Binding="{Binding Diagram}" Width="*" />
                         <!--<DataGridTemplateColumn  HeaderStyle="{StaticResource ScaleColStyle}" 
                                                  CellTemplate="{StaticResource DateTemplate}"
                                                  CellEditingTemplate="{StaticResource EditingDateTemplate}" Width="1.5cm">

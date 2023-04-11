@@ -44,6 +44,16 @@ namespace MiniAddins.View
 
 
         /// <summary>
+        /// Model Export Event Handler Define  From ElementHost Control,
+        /// Because Use EA Repository
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public delegate void ElementHostModelExportEventHandler(object sender, ModelExportEventArgs args);
+        public event ElementHostModelExportEventHandler OnModelExport;
+
+
+        /// <summary>
         /// Column Button Click Event Handler Defination From ElementHost Control.
         /// </summary>
         /// <param name="sender"></param>
@@ -386,6 +396,26 @@ namespace MiniAddins.View
 
         }
 
+
+        /// <summary>
+        /// set model export view model
+        /// </summary>
+        /// <param name="modelSettings"></param>
+        public void SetModelExportViewModel(List<ModelSetting> modelSettings)
+        {
+
+            this.contentViewModel.ModelExportViewModel.SetModelSetting(modelSettings);
+
+            // 从保存历史文件中取值
+            ModelExportViewModel savedModelExportViewModel;
+            savedModelExportViewModel = this.contentViewModel.DeserializeModelExportViewModel();
+            if (savedModelExportViewModel != null)
+            {
+                this.contentViewModel.ModelExportViewModel.ModelOptionSetting = savedModelExportViewModel.ModelOptionSetting;
+            }
+
+        }
+
         /// <summary>
         /// Set Open EA Model Name
         /// </summary>
@@ -447,6 +477,19 @@ namespace MiniAddins.View
         }
 
         /// <summary>
+        /// 激发ModelExport事件到Windows Form
+        /// </summary>
+        /// <param name="modelOptionSetting"></param>
+        /// <param name="modelSettings"></param>
+        public void FireModelExportEvent(ModelOptionSetting modelOptionSetting, List<ModelSetting> modelSettings)
+        {
+            if (this.OnModelExport != null)
+            {
+                this.OnModelExport(this, new ModelExportEventArgs() { modelOptionSetting = modelOptionSetting, modelSettings = modelSettings });
+            }
+        }
+
+        /// <summary>
         /// 激发AllTypesClick事件到Windows Form
         /// </summary>
         public void FireAllTypesClickEvent()
@@ -478,6 +521,15 @@ namespace MiniAddins.View
             public string DiagramGUID { get; set; }
 
         }
+
+        public class ModelExportEventArgs : EventArgs
+        {
+            public ModelOptionSetting modelOptionSetting { get; set; }
+            public List<ModelSetting> modelSettings { get; set; }
+
+        }
+
+
 
     }
 

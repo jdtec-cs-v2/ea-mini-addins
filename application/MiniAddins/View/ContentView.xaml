@@ -115,6 +115,8 @@
                                        Visibility="{Binding ElementName=ListBoxToolCats,Path=SelectedItem.View,Converter={StaticResource VisibilityConverter},ConverterParameter=ImageExportView}"/>
                         <local:StatisticsView Grid.Row="0" DataContext="{Binding StatisticsViewModel}"
                                       Visibility="{Binding  ElementName=ListBoxToolCats,Path=SelectedItem.View,Converter={StaticResource VisibilityConverter},ConverterParameter=StatisticsView}"/>
+                        <local:ModelExportView Grid.Row="0" DataContext="{Binding ModelExportViewModel}"
+                                      Visibility="{Binding  ElementName=ListBoxToolCats,Path=SelectedItem.View,Converter={StaticResource VisibilityConverter},ConverterParameter=ModelExportView}"/>
 
 
                     </Grid>

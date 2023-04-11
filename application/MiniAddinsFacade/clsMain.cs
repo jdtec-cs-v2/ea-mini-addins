@@ -33,7 +33,7 @@ namespace MiniAddinsFacade
 				case "":
 					return "-&Mini Add-ins";
 				case "-&Mini Add-ins":
-					string[] ar = { "&Export Image", "&Statistics Report", "-", "&Export Image(with modeless)", "-", "Show All &Options" };
+					string[] ar = { "&Export Image", "&Export Logical Model", "&Statistics Report", "-", "&Export Image(with modeless)", "-", "Show All &Options" };
 					return ar;
 			}
 			return "";
@@ -107,6 +107,15 @@ namespace MiniAddinsFacade
                     frmFacadeModel.setEARepository(Repository);
                     frmFacadeModel.SetDisplayToolCatsIndex(0);
                     frmFacadeModel.OpenForm(0);
+                    break;
+
+                case "&Export Logical Model":
+
+                    frmModel frmFacadeLDMModel = new frmModel();
+                    frmFacadeLDMModel.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                    frmFacadeLDMModel.setEARepository(Repository);
+                    frmFacadeLDMModel.SetDisplayToolCatsIndex(2);
+                    frmFacadeLDMModel.OpenForm(0);
                     break;
 
                 case "&Export Image(with modeless)":

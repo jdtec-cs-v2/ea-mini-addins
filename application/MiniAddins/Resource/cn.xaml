@@ -4,6 +4,8 @@
 
     <sys:String x:Key="multilang_01">图片导出</sys:String>
     <sys:String x:Key="multilang_02">统计</sys:String>
+    <sys:String x:Key="multilang_03">导出逻辑模型</sys:String>
+        
     <sys:String x:Key="multilang_011">拷贝</sys:String>
     <sys:String x:Key="multilang_012">拷贝所有</sys:String>
 
@@ -39,6 +41,7 @@
 
     <sys:String x:Key="multilang_message_01">请选择目录</sys:String>
     <sys:String x:Key="multilang_message_02">文件保存为</sys:String>
+    <sys:String x:Key="multilang_message_03">请选择输出EXCEL模板</sys:String>
 
     <sys:String x:Key="multilang_40">所有类型</sys:String>
     <sys:String x:Key="multilang_41">过滤条件</sys:String>
@@ -52,5 +55,26 @@
 
     <sys:String x:Key="multilang_61">拷贝</sys:String>
     <sys:String x:Key="multilang_62">保存</sys:String>
+
+    <sys:String x:Key="multilang_70">选项</sys:String>
+    <sys:String x:Key="multilang_71">Excel输出文件模板:</sys:String>
+    <sys:String x:Key="multilang_72">...</sys:String>
+    <sys:String x:Key="multilang_73">模型</sys:String>
+    <sys:String x:Key="multilang_740">全选</sys:String>
+    <sys:String x:Key="multilang_74">选择</sys:String>
+    <sys:String x:Key="multilang_75">逻辑模型图</sys:String>
+    <sys:String x:Key="multilang_76">导出成Excel</sys:String>
+    <sys:String x:Key="multilang_77">拷贝到剪切板</sys:String>
+
+    <sys:String x:Key="multilang_78">字段英文名称:</sys:String>
+    <sys:String x:Key="multilang_79">大写</sys:String>
+
+    <sys:String x:Key="multilang_7010">输出方式:</sys:String>
+    <sys:String x:Key="multilang_7011">一个模型一个Sheet</sys:String>
+
+    <sys:String x:Key="multilang_7020">逻辑图尺寸:</sys:String>
+    <sys:String x:Key="multilang_7021">原本</sys:String>
+    <sys:String x:Key="multilang_7022">自定义(行高倍数)</sys:String>
+
 
 </ResourceDictionary>
