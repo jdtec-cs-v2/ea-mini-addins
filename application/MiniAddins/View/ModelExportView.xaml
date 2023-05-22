@@ -22,9 +22,13 @@
             <ColumnDefinition Width="3.2cm"/>
             <ColumnDefinition Width="8"/>
             <ColumnDefinition Width="3.2cm"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="3.2cm"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="3.2cm"/>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Header="{DynamicResource multilang_70}" Style="{StaticResource GroupStyle}">
+        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" Header="{DynamicResource multilang_70}" Style="{StaticResource GroupStyle}">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -74,7 +78,7 @@
             </Grid>
 
         </GroupBox>
-        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header="{DynamicResource multilang_73}" Style="{StaticResource GroupStyle}">
+        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="8" Header="{DynamicResource multilang_73}" Style="{StaticResource GroupStyle}">
             <Grid>
                 <Grid.Resources>
                     <Style x:Key="Body_Content_DataGrid_Centering"  TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
@@ -148,7 +152,9 @@
 
         </GroupBox>
 
-        <Button Grid.Row="5" Grid.Column="1" Content="{DynamicResource multilang_76}" ToolTip="{DynamicResource multilang_76}" Command="{Binding ExportLdmExcelCommand}"></Button>
-        <Button Grid.Row="5" Grid.Column="3" Content="{DynamicResource multilang_77}" Command="{Binding CopyLdmToClipboard}"></Button>
+        <Button Grid.Row="5" Grid.Column="1" Content="{DynamicResource multilang_761}" ToolTip="{DynamicResource multilang_761}" Command="{Binding ChangeToUpperCommand}"></Button>
+        <Button Grid.Row="5" Grid.Column="3" Content="{DynamicResource multilang_762}" ToolTip="{DynamicResource multilang_7621}" Command="{Binding AddCommonFieldCommand}"></Button>
+        <Button Grid.Row="5" Grid.Column="5" Content="{DynamicResource multilang_76}" ToolTip="{DynamicResource multilang_76}" Command="{Binding ExportLdmExcelCommand}"></Button>
+        <Button Grid.Row="5" Grid.Column="7" Content="{DynamicResource multilang_77}" Command="{Binding CopyLdmToClipboard}"></Button>
     </Grid>
 </UserControl>

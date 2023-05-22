@@ -65,7 +65,11 @@
     <sys:String x:Key="multilang_75">逻辑模型图</sys:String>
     <sys:String x:Key="multilang_76">导出成Excel</sys:String>
     <sys:String x:Key="multilang_77">拷贝到剪切板</sys:String>
-
+    
+    <sys:String x:Key="multilang_761">字段名变成大写</sys:String>
+    <sys:String x:Key="multilang_762">追加共通字段</sys:String>
+    <sys:String x:Key="multilang_7621">Common Field:CREATED,CREATED_BY,MODIFIED,MODIFIED_BY</sys:String>
+    
     <sys:String x:Key="multilang_78">字段英文名称:</sys:String>
     <sys:String x:Key="multilang_79">大写</sys:String>
 

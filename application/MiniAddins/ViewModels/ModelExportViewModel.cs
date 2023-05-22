@@ -197,6 +197,7 @@ namespace MiniAddins.ViewModels
         #endregion
 
         #region Export LDM Excel
+
         RelayCommand _exportLdmExcelCommand = null;
         public ICommand ExportLdmExcelCommand
         {
@@ -207,36 +208,7 @@ namespace MiniAddins.ViewModels
                     _exportLdmExcelCommand = new RelayCommand<string>(
                         (p) => {
 
-                            var selectedList = from item in this.DisplayModelSetting
-                                               where item.Selected
-                                               select item;
-
-                            // 重名处理，重名时加上No.
-                            foreach(ModelSetting item in selectedList)
-                            {
-                                int count = selectedList.Count(value => value.DiagramUnique.Equals(item.DiagramUnique,System.StringComparison.OrdinalIgnoreCase));
-                                if (count  > 1)
-                                {
-                                    item.DiagramUnique = item.DiagramUnique + $"_{count}";
-                                }
-                                else
-                                {
-                                    item.DiagramUnique = item.DiagramUnique;
-                                }
-
-                                int countPackage = selectedList.Count(value => value.PackageNameUnique.Equals(item.PackageNameUnique, System.StringComparison.OrdinalIgnoreCase));
-                                if (countPackage > 1)
-                                {
-                                    item.PackageNameUnique = item.PackageNameUnique + $"_{countPackage}";
-                                }
-                                else
-                                {
-                                    item.PackageNameUnique = item.PackageNameUnique;
-                                }
-                            }
-
-
-                            this._mainvm.userControl.FireModelExportEvent(this.modelOptionSetting,selectedList.ToList());
+                            this._mainvm.userControl.FireModelExportEvent(this.modelOptionSetting, GetSelectDiagrameList());
                         }, 
                         (p) => {
                             return System.IO.File.Exists(this.ModelOptionSetting.ExcelTemplate);                            
@@ -246,6 +218,94 @@ namespace MiniAddins.ViewModels
                 return _exportLdmExcelCommand;
             }
         }
+        
+
+        private List<ModelSetting>  GetSelectDiagrameList()
+        {
+            var selectedList = from item in this.DisplayModelSetting
+                               where item.Selected
+                               select item;
+
+            // 重名处理，重名时加上No.
+            foreach (ModelSetting item in selectedList)
+            {
+                int count = selectedList.Count(value => value.DiagramUnique.Equals(item.DiagramUnique, System.StringComparison.OrdinalIgnoreCase));
+                if (count > 1)
+                {
+                    item.DiagramUnique = item.DiagramUnique + $"_{count}";
+                }
+                else
+                {
+                    item.DiagramUnique = item.DiagramUnique;
+                }
+
+                int countPackage = selectedList.Count(value => value.PackageNameUnique.Equals(item.PackageNameUnique, System.StringComparison.OrdinalIgnoreCase));
+                if (countPackage > 1)
+                {
+                    item.PackageNameUnique = item.PackageNameUnique + $"_{countPackage}";
+                }
+                else
+                {
+                    item.PackageNameUnique = item.PackageNameUnique;
+                }
+            }
+            return selectedList.ToList();
+        }
+
         #endregion
+
+        #region Change Field to Upper
+
+        RelayCommand _changeToUpperCommand = null;
+        public ICommand ChangeToUpperCommand
+        {
+            get
+            {
+                if (_changeToUpperCommand == null)
+                {
+                    _changeToUpperCommand = new RelayCommand<string>(
+                        (p) => {
+
+                            
+                            this._mainvm.userControl.FireChangeToUpperEvent(this.modelOptionSetting, GetSelectDiagrameList());
+                        },
+                        (p) => {
+                            return true;
+                        });
+                }
+
+                return _changeToUpperCommand;
+            }
+        }
+
+        #endregion
+
+        #region Add Common Field 
+
+        RelayCommand _addCommonFieldCommand = null;
+        public ICommand AddCommonFieldCommand
+        {
+            get
+            {
+                if (_addCommonFieldCommand == null)
+                {
+                    _addCommonFieldCommand = new RelayCommand<string>(
+                        (p) => {
+
+
+                            this._mainvm.userControl.FireAddCommonFieldEvent(this.modelOptionSetting, GetSelectDiagrameList());
+                        },
+                        (p) => {
+                            return true;
+                        });
+                }
+
+                return _addCommonFieldCommand;
+            }
+        }
+
+        #endregion
+
+
     }
 }

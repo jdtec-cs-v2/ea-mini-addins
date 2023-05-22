@@ -23,20 +23,20 @@ namespace MiniAddinsFacade
     /// Summary description for frmModel.
     /// </summary>
     public class frmModel : System.Windows.Forms.Form
-	{
+    {
 
         #region Private variable and Public Interface Define
         private EA.ModelWatcher modelWatcher;
-        private bool isOpen =false;
+        private bool isOpen = false;
         private int displayToolCatsIndex;
         private EA.Repository m_Repository;
         private int openModal;
-		private System.Windows.Forms.Integration.ElementHost elementHost;
+        private System.Windows.Forms.Integration.ElementHost elementHost;
         private MiniAddins.View.ContentView ContentView;
 
-        private ConcurrentDictionary<EA.IDualPackage, string> packageDict = new ConcurrentDictionary<IDualPackage,string>();
+        private ConcurrentDictionary<EA.IDualPackage, string> packageDict = new ConcurrentDictionary<IDualPackage, string>();
         private ConcurrentDictionary<string, EA.IDualDiagram> diagramDict = new ConcurrentDictionary<string, EA.IDualDiagram>();
-        
+
         private List<CustomSetting> customSettings = new List<CustomSetting>();
         private List<EaElement> eaElements = new List<EaElement>();
         private System.Windows.Forms.Timer timerModelWatcher;
@@ -63,7 +63,7 @@ namespace MiniAddinsFacade
             this.modelWatcher = modelWatcher;
 
         }
-        
+
         /// <summary>
         /// Set ToolCats Index From Menu Item
         /// </summary>
@@ -73,7 +73,7 @@ namespace MiniAddinsFacade
             this.displayToolCatsIndex = displayToolCatsIndex;
 
         }
-        
+
         /// <summary>
         /// Set Form Open Modal
         /// </summary>
@@ -98,7 +98,7 @@ namespace MiniAddinsFacade
                 // 初始化数据
                 InitilizeData();
             }
-            
+
             // open form with modal
             if (this.openModal == 0)
             {
@@ -123,12 +123,12 @@ namespace MiniAddinsFacade
         #region Form Define
         private IContainer components;
         public frmModel()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
-                        
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+
             //
             // Bind Event Handler
             //
@@ -142,22 +142,25 @@ namespace MiniAddinsFacade
             this.ContentView.OnAllTypesClick += new MiniAddins.View.ContentView.ElementHostAllTypesClickEventHandler(ContentView_OnAllTypesClick);
             this.ContentView.OnModelExport += new MiniAddins.View.ContentView.ElementHostModelExportEventHandler(ContentView_OnModelExport);
 
+            this.ContentView.OnModelChangeToUpper += new MiniAddins.View.ContentView.ElementHostModelExportEventHandler(ContentView_OnModelChangeToUpper);
+            this.ContentView.OnModelAddCommonField += new MiniAddins.View.ContentView.ElementHostModelExportEventHandler(ContentView_OnModelAddCommonField);
+
         }
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
         #endregion
 
@@ -168,7 +171,7 @@ namespace MiniAddinsFacade
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
-		{
+        {
             this.components = new System.ComponentModel.Container();
             this.elementHost = new System.Windows.Forms.Integration.ElementHost();
             this.timerModelWatcher = new System.Windows.Forms.Timer(this.components);
@@ -211,7 +214,7 @@ namespace MiniAddinsFacade
         }
         #endregion
 
-        
+
         #region Window Form Load
         /// <summary>
         /// windows form load事件
@@ -219,7 +222,7 @@ namespace MiniAddinsFacade
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmModel_Load(object sender, System.EventArgs e)
-		{
+        {
             // Adjust From and Font Size
             int sizeScale = GetWindowsScaling();
 
@@ -246,7 +249,7 @@ namespace MiniAddinsFacade
         /// Get OS Font Scaling Rate
         /// </summary>
         /// <returns></returns>
-        public  int GetWindowsScaling()
+        public int GetWindowsScaling()
         {
             return (int)(100 * Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
         }
@@ -260,7 +263,7 @@ namespace MiniAddinsFacade
         /// </summary>
         private void InitilizeData()
         {
-            
+
             // clear data dict
             this.diagramDict.Clear();
             this.packageDict.Clear();
@@ -324,18 +327,18 @@ namespace MiniAddinsFacade
             return new string[] { $"{rootPath}\\images", modelString[modelString.Length - 1] };
 
         }
-                
+
         /// <summary>
         /// Scan EA Packages
         /// </summary>
         /// <param name="parentPackage"></param>
         private void ScanEaPackage(EA.IDualPackage parentPackage)
         {
-            
-            this.packageDict.AddOrUpdate(parentPackage, parentPackage.PackageGUID, (key,value)=> parentPackage.PackageGUID);
-            
+
+            this.packageDict.AddOrUpdate(parentPackage, parentPackage.PackageGUID, (key, value) => parentPackage.PackageGUID);
+
             EA.IDualCollection c = parentPackage.Packages;
-            foreach(EA.IDualPackage package in c)
+            foreach (EA.IDualPackage package in c)
             {
                 ScanEaPackage(package);
             }
@@ -348,13 +351,13 @@ namespace MiniAddinsFacade
         /// <returns></returns>
         private void ReadDiagramFromEaPackage()
         {
-            foreach(EA.IDualPackage Kid in this.packageDict.Keys)
+            foreach (EA.IDualPackage Kid in this.packageDict.Keys)
             {
                 // read Diagram
                 ReadDiagramFromByPackage(Kid, this.diagramDict, this.customSettings);
-                
+
             }
-           
+
             // Count Diagram as Element 
             GetElementFromDiagram(this.eaElements);
 
@@ -373,7 +376,8 @@ namespace MiniAddinsFacade
             EA.IDualElement el;
 
             // reflex to mode items
-            this.customSettings.ForEach(item => {
+            this.customSettings.ForEach(item =>
+            {
 
                 this.modelSettings.Add(new ModelSetting()
                 {
@@ -386,19 +390,20 @@ namespace MiniAddinsFacade
                     Created = item.Created,
                     Modified = item.Modified,
                     ModelReportRecord = new List<ModelReportRecordDto>(),
-                    DiagramUnique ="D_"+ ReplaceSheetName(item.Diagram),
-                    PackageNameUnique="P_" + ReplaceSheetName(item.PackageName)                    
+                    DiagramUnique = "D_" + ReplaceSheetName(item.Diagram),
+                    PackageNameUnique = "P_" + ReplaceSheetName(item.PackageName)
 
                 });
 
                 dualDiagram = (EA.IDualDiagram)this.m_Repository.GetDiagramByGuid(item.DiagramGUID);
-                if(dualDiagram.DiagramObjects != null)
+                if (dualDiagram.DiagramObjects != null)
                 {
                     foreach (EA.DiagramObject dgrmObject in dualDiagram.DiagramObjects)
                     {
                         el = this.m_Repository.GetElementByID(dgrmObject.ElementID);
                         foreach (EA.Attribute attribute in el.Attributes)
                         {
+                            //attribute.Name = attribute.Name.ToUpper();
 
                             this.modelSettings.LastOrDefault().ModelReportRecord.Add(new ModelReportRecordDto()
                             {
@@ -411,6 +416,8 @@ namespace MiniAddinsFacade
                                 FieldIsId = attribute.IsID ? "1" : "0"
 
                             });
+
+                            //attribute.Update();
                         }
 
                     }
@@ -449,7 +456,7 @@ namespace MiniAddinsFacade
         {
             foreach (EA.IDualPackage Kid in this.packageDict.Keys)
             {
-              
+
                 // read element
                 ReadElementFromByPackage(Kid, this.eaElements);
             }
@@ -462,7 +469,7 @@ namespace MiniAddinsFacade
         private void GetElementFromDiagram(List<EaElement> eaElements)
         {
 
-            foreach(EA.IDualDiagram diagram in this.diagramDict.Values)
+            foreach (EA.IDualDiagram diagram in this.diagramDict.Values)
             {
                 // Elements
                 var setting = eaElements.FirstOrDefault(item => item.ElementGUID.Equals(diagram.DiagramGUID));
@@ -479,8 +486,8 @@ namespace MiniAddinsFacade
                     Name = diagram.Name
                 });
             }
-            
-            
+
+
         }
 
         /// <summary>
@@ -493,7 +500,7 @@ namespace MiniAddinsFacade
         private void ReadDiagramFromByPackage(EA.IDualPackage dualPackage, ConcurrentDictionary<string, EA.IDualDiagram> diagramDict, List<CustomSetting> customSettings)
         {
 
-            foreach( EA.IDualDiagram diagram in dualPackage.Diagrams)
+            foreach (EA.IDualDiagram diagram in dualPackage.Diagrams)
             {
                 // 原始Diagram
                 diagramDict.AddOrUpdate(diagram.DiagramGUID, diagram, (key, value) => diagram);
@@ -520,7 +527,7 @@ namespace MiniAddinsFacade
 
             }
         }
-        
+
         /// <summary>
         /// 获得包的全路径
         /// </summary>
@@ -534,19 +541,19 @@ namespace MiniAddinsFacade
             pathList.Add(package.Name);
 
             while (package.ParentID > 0)
-            {   
+            {
                 packageID = package.ParentID;
                 package = this.m_Repository.GetPackageByID(packageID);
                 pathList.Add(package.Name);
             }
 
             // remove root package 
-            for(int i = pathList.Count - 1; i >= 0; i--)
+            for (int i = pathList.Count - 1; i >= 0; i--)
             {
                 stringBuilder.Append($"{pathList[i]}\\");
             }
             string result = stringBuilder.ToString();
-            return result.Substring(0, result.Length-1);
+            return result.Substring(0, result.Length - 1);
         }
 
         /// <summary>
@@ -554,9 +561,9 @@ namespace MiniAddinsFacade
         /// </summary>
         /// <param name="dualPackage"></param>
         /// <param name="eaElements"></param>
-        private void ReadElementFromByPackage(EA.IDualPackage dualPackage,  List<EaElement> eaElements)
+        private void ReadElementFromByPackage(EA.IDualPackage dualPackage, List<EaElement> eaElements)
         {
-            foreach(EA.IDualElement el in dualPackage.Elements)
+            foreach (EA.IDualElement el in dualPackage.Elements)
             {
                 var setting = eaElements.FirstOrDefault(item => item.ElementGUID.Equals(el.ElementGUID));
                 if (setting != null)
@@ -588,8 +595,8 @@ namespace MiniAddinsFacade
         /// <param name="args"></param>
         private void ContentView_OnDragMove(object sender, MiniAddins.View.ContentView.LocationEventArgs args)
         {
-            this.Location = new System.Drawing.Point(this.Location.X + (int)args.X, this.Location.Y + (int)args.Y);     
-            
+            this.Location = new System.Drawing.Point(this.Location.X + (int)args.X, this.Location.Y + (int)args.Y);
+
             this.Update();
         }
 
@@ -608,7 +615,7 @@ namespace MiniAddinsFacade
             {
                 this.Hide();
             }
-            
+
         }
 
         /// <summary>
@@ -691,7 +698,7 @@ namespace MiniAddinsFacade
         {
             if (args.ButtonType.Equals("image"))
             {
-                EA.IDualProject dualProject = this.m_Repository.GetProjectInterface();                
+                EA.IDualProject dualProject = this.m_Repository.GetProjectInterface();
                 bool success = false;
                 success = dualProject.PutDiagramImageOnClipboard(args.DiagramGUID, 1);
                 if (!success)
@@ -699,7 +706,7 @@ namespace MiniAddinsFacade
                     Debug.WriteLine(dualProject.GetLastError());
                 }
                 else
-                {                    
+                {
                     this.m_Repository.CloseDiagram(this.diagramDict[args.DiagramGUID].DiagramID);
                 }
 
@@ -708,7 +715,7 @@ namespace MiniAddinsFacade
             {
                 this.m_Repository.OpenDiagram(this.diagramDict[args.DiagramGUID].DiagramID);
 
-            }            
+            }
         }
 
         /// <summary>
@@ -742,7 +749,7 @@ namespace MiniAddinsFacade
         {
             object reloadItem;
             ReloadType reloadType = ReloadType.rtNone;
-            int packageID =-1;
+            int packageID = -1;
             EA.IDualPackage containPackage;
 
             reloadType = this.modelWatcher.GetReloadItem(out reloadItem);
@@ -750,7 +757,7 @@ namespace MiniAddinsFacade
             if (reloadType == ReloadType.rtNone) return;
 
             // 重新打开了模型文件
-            if(reloadType == ReloadType.rtEntireModel)
+            if (reloadType == ReloadType.rtEntireModel)
             {
                 // 初始化数据
                 InitilizeData();
@@ -762,12 +769,12 @@ namespace MiniAddinsFacade
             }
 
             // when package is changed
-            if (reloadType == ReloadType.rtPackage && reloadItem !=null)
+            if (reloadType == ReloadType.rtPackage && reloadItem != null)
             {
                 EA.IDualPackage dualPackage = reloadItem as EA.IDualPackage;
                 packageID = dualPackage.PackageID;
                 // Debug.WriteLine($"changed package name ={dualPackage.Name},package id={packageID}");
-                
+
             }
 
             // 
@@ -789,7 +796,7 @@ namespace MiniAddinsFacade
 
             ReadDiagramFromByPackage(containPackage, this.diagramDict, newCustomSettings);
             this.ContentView.SetImageExportViewDisplay(eaModelInfo[0], this.customSettings, newCustomSettings);
-            
+
 
         }
         #endregion
@@ -807,15 +814,15 @@ namespace MiniAddinsFacade
             Excel._Workbook oWB = null;
             Excel._Worksheet oSheet = null;
             Excel._Worksheet oSheetDiagram = null;
-            
+
             string excelTemplate;
             string sheetName = "${package}";
             string sheetNameDiagram = "${diagram}";
-            Dictionary<string,TemplateDefination> templateDefiniation;
+            Dictionary<string, TemplateDefination> templateDefiniation;
 
             int imageHeightRatio = 20;
             float rowHeight = 15.0f;
-            
+
             excelTemplate = args.modelOptionSetting.ExcelTemplate;
             templateDefiniation = DefineTemplateInfo();
 
@@ -824,7 +831,7 @@ namespace MiniAddinsFacade
 
 
             int.TryParse(args.modelOptionSetting.RowMultiple.ToString(), out imageHeightRatio);
-            
+
             Cursor.Current = Cursors.WaitCursor;
 
             try
@@ -834,7 +841,7 @@ namespace MiniAddinsFacade
                 oWB = xlApp.Workbooks.Open(excelTemplate);
 
                 // search template sheet
-                foreach(Excel._Worksheet ws in oWB.Sheets)
+                foreach (Excel._Worksheet ws in oWB.Sheets)
                 {
                     if (ws.Name.Equals(sheetName))
                     {
@@ -846,29 +853,29 @@ namespace MiniAddinsFacade
                         oSheetDiagram = ws;
                     }
                 }
-               
-                if(oSheet == null) 
+
+                if (oSheet == null)
                     oSheet = (Excel._Worksheet)oWB.Worksheets[1];
 
                 if (oSheetDiagram == null)
-                    oSheetDiagram = (Excel._Worksheet)oWB.Worksheets.Add(After:oSheet);
+                    oSheetDiagram = (Excel._Worksheet)oWB.Worksheets.Add(After: oSheet);
 
                 // adjust row height
                 oSheetDiagram.Rows.RowHeight = rowHeight;
 
                 // get template cell location
                 Excel.Range colRange = oSheet.Columns;
-                foreach(string key in templateDefiniation.Keys)
+                foreach (string key in templateDefiniation.Keys)
                 {
-                        Excel.Range resultRange = colRange.Find(
-                                        What: key,
-                                        LookIn: Excel.XlFindLookIn.xlValues,
-                                        LookAt: Excel.XlLookAt.xlPart,
-                                        SearchOrder: Excel.XlSearchOrder.xlByRows,
-                                        SearchDirection: Excel.XlSearchDirection.xlNext);
+                    Excel.Range resultRange = colRange.Find(
+                                    What: key,
+                                    LookIn: Excel.XlFindLookIn.xlValues,
+                                    LookAt: Excel.XlLookAt.xlPart,
+                                    SearchOrder: Excel.XlSearchOrder.xlByRows,
+                                    SearchDirection: Excel.XlSearchDirection.xlNext);
                     if (resultRange != null)
                     {
-                        templateDefiniation[key].location.row= resultRange.Cells.Row;
+                        templateDefiniation[key].location.row = resultRange.Cells.Row;
                         templateDefiniation[key].location.column = resultRange.Cells.Column;
 
                     }
@@ -901,31 +908,32 @@ namespace MiniAddinsFacade
                         oNewSheetDiagram.Name = setting.DiagramUnique;
 
                         rowIndex = 0;
-                    }                    
+                    }
 
                     // write to cell
-                    setting.ModelReportRecord.ForEach(item => {
+                    setting.ModelReportRecord.ForEach(item =>
+                    {
 
                         foreach (string key in templateDefiniation.Keys)
                         {
-                            if(key.Equals("${START_LINE}"))
+                            if (key.Equals("${START_LINE}"))
                             {
                                 value = rowIndex.ToString();
                             }
                             else
                             {
-                                value = GetValueByPropertyName(item.GetType(), templateDefiniation[key].propertyName, item,args.modelOptionSetting.IsUpperCase);
+                                value = GetValueByPropertyName(item.GetType(), templateDefiniation[key].propertyName, item, args.modelOptionSetting.IsUpperCase);
 
-                            }                            
+                            }
                             int row = templateDefiniation[key].location.row;
                             int column = templateDefiniation[key].location.column;
-                            oNewSheet.Cells[row+ rowIndex, column].value = value;
+                            oNewSheet.Cells[row + rowIndex, column].value = value;
                         }
 
                         rowIndex = rowIndex + 1;
                     });
 
-                    
+
 
                     // paste diagram image to excel
                     EA.IDualProject dualProject = this.m_Repository.GetProjectInterface();
@@ -966,13 +974,13 @@ namespace MiniAddinsFacade
                         {
                             rowLocation = 0;
                         }
-                    }                    
+                    }
                 }
 
                 // when output mode is "one model one sheet",delete template sheet
                 if (args.modelOptionSetting.IsDivdedSheet)
                 {
-                    
+
                     oSheet.Visible = Excel.XlSheetVisibility.xlSheetHidden;
                     oSheetDiagram.Visible = Excel.XlSheetVisibility.xlSheetHidden;
 
@@ -992,16 +1000,16 @@ namespace MiniAddinsFacade
                 string message = $"Exported LDM is saved. \r\n {saveExcelFile}";
                 string caption = "Export Complete!";
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
-                System.Windows.Forms.MessageBox.Show(message,caption,buttons, MessageBoxIcon.Information);
+                System.Windows.Forms.MessageBox.Show(message, caption, buttons, MessageBoxIcon.Information);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                System.Windows.Forms.MessageBox.Show(e.Message,"Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (xlApp != null)
                 {
                     xlApp.Visible = true;
-                    xlApp.UserControl = true;                   
+                    xlApp.UserControl = true;
                 }
             }
             finally
@@ -1025,6 +1033,7 @@ namespace MiniAddinsFacade
                 }
             }
         }
+
 
         /// <summary>
         /// TemplateLocation
@@ -1056,7 +1065,7 @@ namespace MiniAddinsFacade
                 this.location = location;
             }
         }
-        
+
 
         /// <summary>
         /// 定义模板信息
@@ -1065,7 +1074,7 @@ namespace MiniAddinsFacade
         private Dictionary<string, TemplateDefination> DefineTemplateInfo()
         {
             Dictionary<string, TemplateDefination> templateDefination = new Dictionary<string, TemplateDefination>();
-            templateDefination.Add("${START_LINE}", new TemplateDefination("",new TemplateLocation(1, 1)));
+            templateDefination.Add("${START_LINE}", new TemplateDefination("", new TemplateLocation(1, 1)));
             templateDefination.Add("${TABLE_NOTE}", new TemplateDefination("TableNote", new TemplateLocation(1, 2)));
             templateDefination.Add("${TABLE_NAME}", new TemplateDefination("TableName", new TemplateLocation(1, 3)));
             templateDefination.Add("${FIELD_NOTE}", new TemplateDefination("FieldNote", new TemplateLocation(1, 4)));
@@ -1076,7 +1085,7 @@ namespace MiniAddinsFacade
             return templateDefination;
         }
 
-        private string GetValueByPropertyName(Type type,string propertyName,object target,bool isUpper)
+        private string GetValueByPropertyName(Type type, string propertyName, object target, bool isUpper)
         {
             var property = type.GetProperty(propertyName);
             string sResult = (string)property.GetValue(target, null);
@@ -1084,11 +1093,84 @@ namespace MiniAddinsFacade
             {
                 sResult = sResult.ToUpper();
             }
-            return sResult;            
+            return sResult;
         }
 
 
         #endregion
 
+        #region Model Change to upper Handler
+        /// <summary>
+        /// Handle Model Change to upper
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ContentView_OnModelChangeToUpper(object sender, MiniAddins.View.ContentView.ModelExportEventArgs args)
+        {
+            //change name to upper
+            EA.IDualDiagram dualDiagram;
+            EA.IDualElement el;
+            foreach (ModelSetting setting in args.modelSettings)
+            {
+                dualDiagram = (EA.IDualDiagram)this.m_Repository.GetDiagramByGuid(setting.DiagramGUID);
+                if (dualDiagram.DiagramObjects != null)
+                {
+                    foreach (EA.DiagramObject dgrmObject in dualDiagram.DiagramObjects)
+                    {
+                        el = this.m_Repository.GetElementByID(dgrmObject.ElementID);
+                        foreach (EA.Attribute attribute in el.Attributes)
+                        {
+                            attribute.Name = attribute.Name.ToUpper();
+                            attribute.Update();
+                        }
+                    }
+
+                }
+            }
+
+        }
+        #endregion
+
+        #region Model Add Common Field Handler
+        /// <summary>
+        /// Handle Model Change to upper
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ContentView_OnModelAddCommonField(object sender, MiniAddins.View.ContentView.ModelExportEventArgs args)
+        {
+            // add common filed
+            EA.IDualDiagram dualDiagram;
+            EA.IDualElement el;
+            EA.Attribute attribute;
+            foreach (ModelSetting setting in args.modelSettings)
+            {
+
+                dualDiagram = (EA.IDualDiagram)this.m_Repository.GetDiagramByGuid(setting.DiagramGUID);
+                if (dualDiagram.DiagramObjects != null)
+                {
+                    foreach (EA.DiagramObject dgrmObject in dualDiagram.DiagramObjects)
+                    {
+                        el = this.m_Repository.GetElementByID(dgrmObject.ElementID);
+                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATED", "TIMESTAMP");
+                        attribute.Update();
+
+                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATED_BY", "VARCHAR(36)");
+                        attribute.Update();
+
+                        attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED", "TIMESTAMP");
+                        attribute.Update();
+
+                        attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED_BY", "VARCHAR(36)");
+                        attribute.Update();
+
+                        el.Attributes.Refresh();
+                    }
+
+                }
+            }
+
+        }
+        #endregion
     }
 }

@@ -67,6 +67,11 @@
     <sys:String x:Key="multilang_76">Export Excel</sys:String>
     <sys:String x:Key="multilang_77">Copy to Clipboard</sys:String>
 
+    <sys:String x:Key="multilang_761">Field Uppercase</sys:String>
+    <sys:String x:Key="multilang_762">Add Common Field</sys:String>
+    <sys:String x:Key="multilang_7621">Common Field:CREATED,CREATED_BY,MODIFIED,MODIFIED_BY</sys:String>
+    
+
     <sys:String x:Key="multilang_78">Field Code:</sys:String>
     <sys:String x:Key="multilang_79">Uppercase</sys:String>
 

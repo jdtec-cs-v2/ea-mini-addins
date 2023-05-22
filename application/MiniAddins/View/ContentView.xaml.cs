@@ -52,6 +52,9 @@ namespace MiniAddins.View
         public delegate void ElementHostModelExportEventHandler(object sender, ModelExportEventArgs args);
         public event ElementHostModelExportEventHandler OnModelExport;
 
+        public event ElementHostModelExportEventHandler OnModelChangeToUpper;
+        public event ElementHostModelExportEventHandler OnModelAddCommonField;
+
 
         /// <summary>
         /// Column Button Click Event Handler Defination From ElementHost Control.
@@ -486,6 +489,32 @@ namespace MiniAddins.View
             if (this.OnModelExport != null)
             {
                 this.OnModelExport(this, new ModelExportEventArgs() { modelOptionSetting = modelOptionSetting, modelSettings = modelSettings });
+            }
+        }
+
+        /// <summary>
+        /// 激发ChangeToUpper事件到Windows Form
+        /// </summary>
+        /// <param name="modelOptionSetting"></param>
+        /// <param name="modelSettings"></param>
+        public void FireChangeToUpperEvent(ModelOptionSetting modelOptionSetting, List<ModelSetting> modelSettings)
+        {
+            if (this.OnModelChangeToUpper != null)
+            {
+                this.OnModelChangeToUpper(this, new ModelExportEventArgs() { modelOptionSetting = modelOptionSetting, modelSettings = modelSettings });
+            }
+        }
+
+        /// <summary>
+        /// 激发AddCommonField事件到Windows Form
+        /// </summary>
+        /// <param name="modelOptionSetting"></param>
+        /// <param name="modelSettings"></param>
+        public void FireAddCommonFieldEvent(ModelOptionSetting modelOptionSetting, List<ModelSetting> modelSettings)
+        {
+            if (this.OnModelAddCommonField != null)
+            {
+                this.OnModelAddCommonField(this, new ModelExportEventArgs() { modelOptionSetting = modelOptionSetting, modelSettings = modelSettings });
             }
         }
 
