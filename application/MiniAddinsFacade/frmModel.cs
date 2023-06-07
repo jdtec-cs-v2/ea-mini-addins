@@ -1143,6 +1143,7 @@ namespace MiniAddinsFacade
             EA.IDualDiagram dualDiagram;
             EA.IDualElement el;
             EA.Attribute attribute;
+           
             foreach (ModelSetting setting in args.modelSettings)
             {
 
@@ -1152,16 +1153,48 @@ namespace MiniAddinsFacade
                     foreach (EA.DiagramObject dgrmObject in dualDiagram.DiagramObjects)
                     {
                         el = this.m_Repository.GetElementByID(dgrmObject.ElementID);
-                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATED", "TIMESTAMP");
+
+                       
+                        short attributeIndex = 0 ;
+                        foreach(EA.Attribute anAttribute in el.Attributes)
+                        {
+                            if (anAttribute.Name.Equals("CREATED") ||
+                                anAttribute.Name.Equals("CREATED_BY") ||
+                                anAttribute.Name.Equals("MODIFIED") ||
+                                anAttribute.Name.Equals("MODIFIED_BY"))
+                            {
+                                el.Attributes.Delete(attributeIndex);
+
+                            }
+                            attributeIndex++;
+                        }
+
+                        //attribute = (EA.Attribute)el.Attributes.AddNew("CREATED", "TIMESTAMP");
+                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATOR_ID", "VARCHAR(36)");
+                        attribute.Notes = "创建人ID";
                         attribute.Update();
 
-                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATED_BY", "VARCHAR(36)");
+                        //attribute = (EA.Attribute)el.Attributes.AddNew("CREATED_BY", "VARCHAR(36)");
+                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATE_TIME", "DATE");
+                        attribute.Notes = "创建时间";
                         attribute.Update();
 
-                        attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED", "TIMESTAMP");
+                        //attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED", "TIMESTAMP");
+                        attribute = (EA.Attribute)el.Attributes.AddNew("UPDATOR_ID", "VARCHAR(36)");
+                        attribute.Notes = "更新人ID";
                         attribute.Update();
 
-                        attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED_BY", "VARCHAR(36)");
+                        //attribute = (EA.Attribute)el.Attributes.AddNew("MODIFIED_BY", "VARCHAR(36)");
+                        attribute = (EA.Attribute)el.Attributes.AddNew("UPDATE_TIME", "DATE");
+                        attribute.Notes = "更新时间";
+                        attribute.Update();
+
+                        attribute = (EA.Attribute)el.Attributes.AddNew("CREATOR_NAME", "VARCHAR(50)");
+                        attribute.Notes = "创建人名称";
+                        attribute.Update();
+
+                        attribute = (EA.Attribute)el.Attributes.AddNew("UPDATOR_NAME", "VARCHAR(50)");
+                        attribute.Notes = "更新人名称";
                         attribute.Update();
 
                         el.Attributes.Refresh();
