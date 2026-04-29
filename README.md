@@ -1,12 +1,15 @@
 # Enterprise Architect  Mini Add-Ins
 
-本项目利用Enterprise Architect提供的Add-Ins Model、Automation Interface，进行小工具插件开发，主要功能：
+Addins for Sparx Systems Enterprise Architect.
+this project develops a utility plugin using the Add-Ins Model and Automation Interface provided by Enterprise Architect (EA).
+The main functions include:
 
-- EA图片导出的扩展，支持配置化、个性化保持、一键批量导出
-- 模型制作内容的统计
+- Extension of EA image export: supporting configurable settings, personalized saving, and one-click batch export.
+- Statistics of model development content
 
 
 ## Overview
+
 因EA仅支持开发语言VB、C#、Delphi进行Add-Ins扩展开发，本项目采用能支持面向对象开发的C#语言进行。其中：
 * 用基于Windows Form的MiniAddinsFacade与EA做对接门面，实现与EA之间的交互，作为COM组件注册
 * 用基于WPF技术的MiniAddins实现业务处理功能，包含：EA类似画面的定制、MVVM、实现功能等等
